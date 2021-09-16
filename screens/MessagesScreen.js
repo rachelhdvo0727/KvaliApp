@@ -1,26 +1,32 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { StyleSheet, Text, View, Button } from "react-native";
-import ChatRoom1 from "../components/ChatRoom1";
-import ChatRoom2 from "../components/ChatRoom2";
-import ChatMessagesHome from "../components/ChatMessagesHome";
+import UserScreen1 from "./UserScreen1";
+import UserScreen2 from "./UserScreen2";
 
-const ChatStack = createNativeStackNavigator();
+
+const UserTab = createMaterialTopTabNavigator();
 
 export default function ChatMessages(props) {
 	return (
-		<ChatStack.Navigator initialRouteName='Messages'>
-			<ChatStack.Screen name='Messages' component={ChatMessagesHome} />
-			<ChatStack.Screen
-				name='ChatScreen'
-				component={ChatRoom1}
-			></ChatStack.Screen>
-			<ChatStack.Screen
-				name='ChatScreen2'
-				component={ChatRoom2}
-			></ChatStack.Screen>
-		</ChatStack.Navigator>
+		<>
+			<UserTab.Navigator>
+				<UserTab.Screen
+					name='User1'
+					component={UserScreen1}
+					options={{ title: "Robert Jacobsen" }}
+				></UserTab.Screen>
+				<UserTab.Screen
+					name='User2'
+					component={UserScreen2}
+					options={{ title: "CSB Surf" }}
+				></UserTab.Screen>
+			</UserTab.Navigator>
+		</>
 	);
 }
+
+

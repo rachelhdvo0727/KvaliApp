@@ -1,22 +1,37 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-
 import { useNavigation } from "@react-navigation/core";
+
+import {
+	StyleSheet,
+	Text,
+	View,
+	Button,
+	FlatList,
+	SafeAreaView,
+} from "react-native";
+import ChatRoom from "./ChatRoom";
+
+import { ChatRooms } from "../dummy-db/DummyData";
 
 export default function ChatMessagesHome(props) {
 	const navigation = useNavigation();
+	console.log(ChatRooms);
 	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Text>All chatrooms</Text>
-			<Button
-				title='Chat room nr. 1'
-				onPress={() => navigation.navigate("ChatScreen")}
-			></Button>
-			<Button
-				title='Chat room nr. 2'
-				onPress={() => navigation.navigate("ChatScreen2")}
-			></Button>
-		</View>
+		<SafeAreaView
+			style={{ flex: 1, alignItems: "center", justifyContent: "top" }}
+		>
+			<FlatList
+				data={ChatRooms}
+				renderItem={({ item }) => (
+					<ChatRoom
+						imageSrc={{ uri: "../assets/cbs-surf" + item.imageUrl }}
+						titleText={item.chatRoomName}
+						bodyText={item.messages}
+					/>
+				)}
+				keyExtractor={(item) => item.chatRoomId}
+			></FlatList>
+		</SafeAreaView>
 	);
 }
 
