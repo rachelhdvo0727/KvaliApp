@@ -3,45 +3,35 @@ import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-function HomeScreen({ navigation }) {
-	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Text>Homescreen</Text>
-			<Button
-				title='Go to User Profile'
-				onPress={() => navigation.navigate("User")}
-			/>
-		</View>
-	);
-}
+// Screens
+import MessagesScreen from "./screens/MessagesScreen";
+import HomeScreen from "./screens/HomeScreen";
+import Settings from "./screens/Settings";
 
-function UserProfile({ navigation }) {
-	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Text>User profile</Text>
-			<Button
-				title='Go to User profile... again'
-				onPress={() => navigation.push("User")}
-			/>
-			{/*  */}
-			<Button title='Go back' onPress={() => navigation.goBack()} />
-		</View>
-	);
-}
-
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
 	return (
-		<NavigationContainer>
+		<NavigationContainer initialRouteName='Home'>
+			<Tab.Navigator>
+				<Tab.Screen name='Home' component={HomeScreen}></Tab.Screen>
+				<Tab.Screen
+					name='Messages'
+					component={MessagesScreen}
+					options={{ title: "Messages", headerShown: false }}
+				/>
+				<Tab.Screen name='Settings' component={Settings} />
+			</Tab.Navigator>
+
 			{/* Take route config. as its children w additional props for config & renders contents */}
 			{/* Specify the inial route in a stack  */}
-			<Stack.Navigator initialRouteName='Home'>
-				{/* 'name' & 'component' are required*/}
+			{/* <Stack.Navigator initialRouteName='Home'>
+				{/* 'name' & 'component' are required
 				<Stack.Screen name='Home' component={HomeScreen} />
 				<Stack.Screen name='User' component={UserProfile} />
-			</Stack.Navigator>
+			</Stack.Navigator> */}
 		</NavigationContainer>
 	);
 }
