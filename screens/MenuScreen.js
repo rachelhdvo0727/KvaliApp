@@ -1,14 +1,12 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/core";
 import { StyleSheet, Text, View, Button } from "react-native";
 
-
-export default function ChatScreen(props) {
-	const navigation = useNavigation();
-
+const Menu = (props) => {
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Text>Chat Room 1</Text>
+			<Text>This is Menu screen</Text>
 		</View>
 	);
-}
+};
+
+export default Menu;

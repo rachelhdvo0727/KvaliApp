@@ -2,12 +2,13 @@ import React from "react";
 import { StyleSheet, Image, View, Text, TouchableOpacity } from "react-native";
 
 const ChatRoom = (props) => (
-	<TouchableOpacity style={styles.container} onPress={props.onPress}>
-		<View>
-			<Image source={props.imageSrc} />
+	<TouchableOpacity onPress={props.onPress}>
+		<View style={styles.container}>
+			{props.children}
+			{/* <Image source={props.imageSrc} /> */}
 			<View style={styles.textContainer}>
-				<Text style={styles.title}>{props.titleText}</Text>
-				<Text style={styles.title} numberOfLines={2}>
+				<Text style={styles.texts + styles.titleText}>{props.titleText}</Text>
+				<Text style={styles.texts + styles.bodyText} numberOfLines={2}>
 					{props.bodyText}
 				</Text>
 			</View>
@@ -20,26 +21,24 @@ export default ChatRoom;
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "transparent",
-		padding: 30,
+		padding: 15,
 		marginHorizontal: 10,
-		marginVertical: 3,
+		marginVertical: 1,
 
-		flex: 0.08,
+		flex: 1,
 		flexDirection: "row",
-		width: "100%",
+		justifyContent: "space-between",
+		alignContent: "stretch",
 	},
 	textContainer: {
-		flexGrow: 3,
-		flex: 1,
-		flexDirection: "column",
+		flexBasis: 300,
+		marginLeft: 20,
 	},
-	image: {
-		flexGrow: 2,
-		width: 30,
-		height: 30,
-		borderRadius: 50,
-	},
-	title: {
+	texts: {
 		fontSize: 16,
 	},
+	titleText: {
+		fontWeight: "bold",
+	},
+	bodyText: {},
 });
