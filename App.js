@@ -17,7 +17,7 @@ import MenuScreen from "./screens/MenuScreen";
 import Test from "./screens/Test";
 
 // Icons
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome, Entypo, Ionicons } from "@expo/vector-icons";
 
 function getHeaderTitle(route) {
 	const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeTabs";
@@ -53,11 +53,25 @@ function ChatAsOrg() {
 const TopTap = createMaterialTopTabNavigator();
 function ChatAsTabs() {
 	return (
-		<TopTap.Navigator>
+		<TopTap.Navigator
+			screenOptions={{
+				tabBarActiveTintColor: "#5050A5",
+				tabBarLabelStyle: {
+					fontWeight: "bold",
+				},
+				tabBarIndicatorStyle: {
+					backgroundColor: "#5050A5",
+					height: 4,
+					borderRadius: "10 10 0 0",
+				},
+			}}
+		>
 			<TopTap.Screen
 				name='ChatAsPrivate'
 				component={ChatScreen}
-				options={{ title: "Jacob Robertson" }}
+				options={{
+					title: "Jacob Robertson",
+				}}
 			/>
 			<TopTap.Screen
 				name='ChatAsOrg'
@@ -71,26 +85,66 @@ function ChatAsTabs() {
 const Tab = createBottomTabNavigator();
 function HomeTabs() {
 	return (
-		<Tab.Navigator screenOptions={{ headerShown: false }}>
+		<Tab.Navigator
+			screenOptions={{
+				headerShown: false,
+				tabBarActiveTintColor: "#5050A5",
+				tabBarIconStyle: {
+					width: 40,
+					height: 100,
+				},
+				tabBarLabelStyle: {
+					fontWeight: "600",
+					textTransform: "uppercase",
+				},
+				headerTitleStyle: {
+					textTransform: "uppercase",
+				},
+				tabBarShowIcon: true,
+			}}
+		>
 			<Tab.Screen
 				name='HomeScreen'
 				component={HomeScreen}
-				options={{ title: "Home" }}
+				options={{
+					title: "Home",
+					tabBarIcon: ({ focused, color, size }) => (
+						<Entypo name='home' size={size} color={color} />
+					),
+					tabBarStyle: {
+						fontWeight: 700,
+					},
+				}}
 			/>
 			<Tab.Screen
 				name='DiscoveryScreen'
 				component={DiscoveryScreen}
-				options={{ title: "Discovery" }}
+				options={{
+					title: "Discovery",
+					tabBarIcon: ({ focused, color, size }) => (
+						<FontAwesome name='search' size={size} color={color} />
+					),
+				}}
 			/>
 			<Tab.Screen
 				name='ChatAsTabs'
 				component={ChatAsTabs}
-				options={{ title: "Chat" }}
+				options={{
+					title: "Chat",
+					tabBarIcon: ({ focused, color, size }) => (
+						<Entypo name='chat' size={size} color={color} />
+					),
+				}}
 			/>
 			<Tab.Screen
 				name='MenuScreen'
 				component={MenuScreen}
-				options={{ title: "Menu" }}
+				options={{
+					title: "Menu",
+					tabBarIcon: ({ focused, color, size }) => (
+						<Ionicons name='ios-menu' size={size} color={color} />
+					),
+				}}
 			/>
 		</Tab.Navigator>
 	);
@@ -99,8 +153,16 @@ function HomeTabs() {
 const Stack = createNativeStackNavigator();
 export default function App() {
 	return (
-		<NavigationContainer initialRouteName='Home'>
-			<Stack.Navigator>
+		<NavigationContainer initialRouteName='HomeTabs'>
+			<Stack.Navigator
+				screenOptions={{
+					headerTintColor: "#5050A5",
+					headerTitleStyle: {
+						fontWeight: "bold",
+						textTransform: "uppercase",
+					},
+				}}
+			>
 				<Stack.Screen
 					name='HomeTabs'
 					component={HomeTabs}

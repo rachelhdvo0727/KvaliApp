@@ -7,8 +7,8 @@ const ChatRoom = (props) => (
 			{props.children}
 			{/* <Image source={props.imageSrc} /> */}
 			<View style={styles.textContainer}>
-				<Text style={styles.texts + styles.titleText}>{props.titleText}</Text>
-				<Text style={styles.texts + styles.bodyText} numberOfLines={2}>
+				<Text style={(styles.texts, styles.titleText)}>{props.titleText}</Text>
+				<Text style={(styles.texts, styles.bodyText)} numberOfLines={2}>
 					{props.bodyText}
 				</Text>
 			</View>
