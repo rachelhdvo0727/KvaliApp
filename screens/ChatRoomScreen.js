@@ -1,58 +1,87 @@
 import React from "react";
+import { Messages } from "../dummy-db/DummyData";
 import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
+import Message from "../components/Message";
+import { Users } from "../dummy-db/DummyData";
+let moment = require("moment-timezone");
 
 export default function ChatRoomScreen(props) {
+	const evenIndex = Messages?.filter((index) => index % 2 === 0);
+	console.log(Messages, evenIndex, Users);
 	return (
-		<View style={styles.view}>
-			<View style={(styles.container, styles.sentMessageContainer)}>
-				<Text style={styles.sentMessageText}>
-					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam?
-				</Text>
+		<>
+			<View style={styles.view}>
+				{Messages.map((msg, i) => {
+					if (msg?.user.id === "1") {
+						return (
+							<Message
+								key={i}
+								msgWrapperStyles={styles.alignMsgBox}
+								msgBoxStyles={styles.alignMsgBox}
+								textMsgBoxStyles={styles.sentMsgContainer}
+								textMsgStyles={styles.sentMsgText}
+								text={msg.messageText}
+								timeStampText={moment(msg.messageTimestamp).format("HH:mm")}
+								timeStampStyles={{ textAlign: "right" }}
+							/>
+						);
+					} else {
+						return (
+							<Message
+								key={i}
+								senderImage={
+									<Image
+										style={styles.senderImage}
+										source={require("../assets/cbs-surf/cbs-surf.png")}
+									/>
+								}
+								textMsgBoxStyles={styles.incomingMsgContainer}
+								text={msg.messageText}
+								timeStampText={moment(msg.messageTimestamp).format("HH:mm")}
+							/>
+						);
+					}
+				})}
 			</View>
-			<View style={styles.container}>
-				<Image
-					style={styles.senderImage}
-					source={require("../assets/cbs-surf/cbs-surf.png")}
-				/>
-				<Text style={styles.incomingMessageText}>
-					Lorem ipsum dolor sit amet, conset sadipscing elitr, sed ipsum dolor
-					sit amet
-				</Text>
-			</View>
-		</View>
+		</>
 	);
 }
 
 const styles = StyleSheet.create({
 	view: {
 		backgroundColor: "#fff",
-		padding: 20,
-		height: 500,
+		padding: 18,
 		flex: 1,
 		flexDirection: "column",
-		justifyContent: "space-between",
+		justifyContent: "flex-end",
+		overflow: "scroll",
 	},
-	container: {
-		flexDirection: "row",
+	alignMsgBox: {
+		alignSelf: "flex-end",
 	},
-	sentMessageContainer: {
-		backgroundColor: "#5050A5",
-	},
-	sentMessageText: {
+	sentMsgText: {
 		color: "#fff",
 	},
-	incomingMessageContainer: {
-		backgroundColor: "#EEEEEE",
-	},
-	incomingMessageText: {
-		color: "#000",
-		flexBasis: 50,
+	sentMsgContainer: {
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 4,
+		backgroundColor: "#5050A5",
 	},
 	senderImage: {
 		width: 30,
 		height: 30,
-		flexBasis: 150,
 	},
+	incomingMsgContainer: {
+		backgroundColor: "#EEEEEE",
+		borderBottomRightRadius: 12,
+		borderBottomLeftRadius: 4,
+		marginLeft: 10,
+	},
+	incomingMessageText: {
+		borderBottomRightRadius: 15,
+		borderBottomLeftRadius: 10,
+	},
+	timeStampStyles: {},
 	embeddedLink: {
 		borderStyle: "solid",
 		borderWidth: 1,

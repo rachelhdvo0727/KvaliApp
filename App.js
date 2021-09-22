@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import {
 	NavigationContainer,
 	getFocusedRouteNameFromRoute,
@@ -24,20 +24,22 @@ function getHeaderTitle(route) {
 
 	switch (routeName) {
 		case "HomeTabs":
-			return "Home";
+			return "HOME";
 		case "DiscoveryScreen":
-			return "Discovery";
+			return "DICOVERY";
 		case "MenuScreen":
-			return "Menu";
+			return "MENU";
 		// Chat
 		case "ChatAsTabs":
-			return "Chat";
+			return "CHAT";
 		case "ChatScreen":
-			return "Chat";
+			return "CHAT";
+		case "ChatRoomScreen":
+			return null;
 		case "ChatAsPrivate":
-			return "Chat";
+			return "CHAT";
 		case "ChatAsOrg":
-			return "Chat";
+			return "CHAT";
 	}
 }
 
@@ -88,6 +90,9 @@ function HomeTabs() {
 		<Tab.Navigator
 			screenOptions={{
 				headerShown: false,
+				headerTitleStyle: {
+					textTransform: "uppercase",
+				},
 				tabBarActiveTintColor: "#5050A5",
 				tabBarIconStyle: {
 					width: 40,
@@ -95,9 +100,6 @@ function HomeTabs() {
 				},
 				tabBarLabelStyle: {
 					fontWeight: "600",
-					textTransform: "uppercase",
-				},
-				headerTitleStyle: {
 					textTransform: "uppercase",
 				},
 				tabBarShowIcon: true,
@@ -109,7 +111,9 @@ function HomeTabs() {
 				options={{
 					title: "Home",
 					tabBarIcon: ({ focused, color, size }) => (
-						<Entypo name='home' size={size} color={color} />
+						<View style={focused && styles.focusedBottomtab}>
+							<Entypo name='home' size={size} color={color} />
+						</View>
 					),
 					tabBarStyle: {
 						fontWeight: 700,
@@ -122,7 +126,9 @@ function HomeTabs() {
 				options={{
 					title: "Discovery",
 					tabBarIcon: ({ focused, color, size }) => (
-						<FontAwesome name='search' size={size} color={color} />
+						<View style={focused && styles.focusedBottomtab}>
+							<FontAwesome name='search' size={size} color={color} />
+						</View>
 					),
 				}}
 			/>
@@ -132,7 +138,12 @@ function HomeTabs() {
 				options={{
 					title: "Chat",
 					tabBarIcon: ({ focused, color, size }) => (
-						<Entypo name='chat' size={size} color={color} />
+						<View style={focused && styles.focusedBottomtab}>
+							<Entypo name='chat' size={size} color={color} />
+						</View>
+					),
+					headerRight: ({ focused, color, size }) => (
+						<Entypo name='new-message' size={size} color={color} />
 					),
 				}}
 			/>
@@ -142,7 +153,9 @@ function HomeTabs() {
 				options={{
 					title: "Menu",
 					tabBarIcon: ({ focused, color, size }) => (
-						<Ionicons name='ios-menu' size={size} color={color} />
+						<View style={focused && styles.focusedBottomtab}>
+							<Ionicons name='ios-menu' size={size} color={color} />
+						</View>
 					),
 				}}
 			/>
@@ -167,16 +180,17 @@ export default function App() {
 					name='HomeTabs'
 					component={HomeTabs}
 					options={({ route }) => ({
-						title: "Home",
 						headerTitle: getHeaderTitle(route),
 					})}
 				/>
 				<Stack.Screen
-					name='ChatAsTabs'
-					component={ChatAsTabs}
+					name='ChatScreen'
+					component={ChatScreen}
 					options={({ route }) => ({
-						title: "Chat",
 						headerTitle: getHeaderTitle(route),
+						headerRight: ({ focused, color, size }) => (
+							<Entypo name='new-message' size={size} color={color} />
+						),
 					})}
 				/>
 				<Stack.Screen
@@ -198,5 +212,11 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		alignItems: "center",
 		justifyContent: "center",
+	},
+	focusedBottomtab: {
+		borderTopWidth: 5,
+		borderTopColor: "#5050A5",
+		paddingTop: 4,
+		// borderRadius: "10 10 0 0",
 	},
 });

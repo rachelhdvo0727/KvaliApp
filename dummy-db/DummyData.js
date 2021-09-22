@@ -13,11 +13,11 @@ export const Messages = [
 		"1",
 		"Hello, where's everyone?",
 		new Date(2021, 0, 1, 12, 10, 5),
-		User[0]
+		Users[0]
 	),
-	new Message("2", "I'm here", new Date(2021, 0, 1, 12, 15, 5), User[1]),
-	new Message("3", "Stfu", new Date(2021, 0, 1, 12, 15, 5), User[0]),
-	new Message("4", "I'm speechless", new Date(2021, 0, 1, 12, 15, 5), User[1]),
+	new Message("2", "I'm here", new Date(2021, 0, 1, 12, 15, 5), Users[1]),
+	new Message("3", "Stfu", new Date(2021, 0, 1, 12, 15, 5), Users[0]),
+	new Message("4", "I'm speechless", new Date(2021, 0, 1, 12, 15, 5), Users[1]),
 ];
 
 export const ChatRooms = [
