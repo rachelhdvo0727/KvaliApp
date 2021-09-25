@@ -1,48 +1,44 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/core";
 import { useDispatch, useSelector } from "react-redux";
-import { newChatRoom, toggleHappy } from "../store/actions/ChatActions";
+import {
+	newChatRoom,
+	toggleHappy,
+	chatRooms,
+} from "../store/actions/ChatActions";
 
 let moment = require("moment-timezone");
 
-import {
-	StyleSheet,
-	FlatList,
-	SafeAreaView,
-	Image,
-	Text,
-	Button,
-} from "react-native";
+import { StyleSheet, FlatList, SafeAreaView, Image } from "react-native";
 import ChatRoom from "../components/ChatRoom";
-
-import { ChatRooms } from "../dummy-db/DummyData";
 
 export default function ChatScreen(props) {
 	const navigation = useNavigation();
-	const chatroom = ChatRooms.map((room) => room.messages);
-	console.log(chatroom.map((test) => test.messageText));
-	const isHappy = useSelector((state) => state.chat.isHappy);
 	const dispatch = useDispatch();
 
-	// const chatRooms = useSelector((state) => state.chat.chatRooms);
+	// const isHappy = useSelector((state) => state.chat.isHappy);
+	// const chatRoomNames = useSelector((state) => state.chat.chatRoomNames);
+	const chatRooms = useSelector((state) => state.chat.chatRooms);
+	console.log(chatRooms);
 
 	return (
 		<SafeAreaView
 			style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
 		>
-			<Text>{String(isHappy)}</Text>
-			<Button
-				title='toggle mood'
-				onPress={() => dispatch(toggleHappy(!isHappy))}
-			/>
 			<FlatList
-				data={ChatRooms}
+				data={chatRooms}
 				renderItem={({ item }) => (
 					<ChatRoom
 						style={styles.image}
+						onPress={() => {
+							navigation.navigate("ChatRoomScreen", {
+								id: item.chatRoomId,
+								name: item.chatRoomName,
+							});
+						}}
 						titleText={item.chatRoomName}
 						bodyText={
-							Array.isArray(item.messages) && item.messages.length > 0
+							item.messages.length > 0
 								? item.messages[item.messages.length - 1].messageText
 								: null
 						}
@@ -64,14 +60,8 @@ export default function ChatScreen(props) {
 							/>
 						}
 						keyExtractor={(item) => item.chatRoomId}
-						onPress={() => {
-							navigation.navigate("ChatRoomScreen", {
-								id: item.chatRoomId,
-								name: item.chatRoomName,
-							});
-						}}
 						timeStamp={
-							Array.isArray(item.messages) && item.messages.length > 0
+							item.messages.length > 0
 								? moment(
 										item.messages[item.messages.length - 1].messageTimestamp
 								  ).format("HH:mm")

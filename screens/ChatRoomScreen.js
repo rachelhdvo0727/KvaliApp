@@ -1,12 +1,18 @@
 import React from "react";
-import { Messages } from "../dummy-db/DummyData";
+import { Messages, ChatRooms } from "../dummy-db/DummyData";
+
 import { StyleSheet, TextInput, View, Button, Image } from "react-native";
 import Message from "../components/Message";
-import { Users } from "../dummy-db/DummyData";
+
 let moment = require("moment-timezone");
 
 export default function ChatRoomScreen(props) {
-	console.log(props);
+	// console.log(props.route.params.id);
+	const id = props.route.params.id;
+	const chatMessages = ChatRooms.find(
+		(room) => room.chatRoomId === id
+	).messages;
+
 	const [onChangeMsg, setOnChangeMsg] = React.useState("");
 	const handleSend = () => {
 		console.log("value " + onChangeMsg);
@@ -15,7 +21,7 @@ export default function ChatRoomScreen(props) {
 	return (
 		<>
 			<View style={styles.view}>
-				{Messages.map((msg, i) => {
+				{chatMessages?.map((msg, i) => {
 					if (msg?.user.id === "1") {
 						return (
 							<Message

@@ -50,7 +50,6 @@ export default function App() {
 	const rootReducer = combineReducers({
 		chat: ChatReducer,
 	});
-
 	const store = createStore(rootReducer);
 
 	return (
