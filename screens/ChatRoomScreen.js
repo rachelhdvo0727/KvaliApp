@@ -1,13 +1,17 @@
 import React from "react";
 import { Messages } from "../dummy-db/DummyData";
-import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
+import { StyleSheet, TextInput, View, Button, Image } from "react-native";
 import Message from "../components/Message";
 import { Users } from "../dummy-db/DummyData";
 let moment = require("moment-timezone");
 
 export default function ChatRoomScreen(props) {
-	const evenIndex = Messages?.filter((index) => index % 2 === 0);
-	console.log(Messages, evenIndex, Users);
+	console.log(props);
+	const [onChangeMsg, setOnChangeMsg] = React.useState("");
+	const handleSend = () => {
+		console.log("value " + onChangeMsg);
+		// setOnChangeMsg(onChangeMsg);
+	};
 	return (
 		<>
 			<View style={styles.view}>
@@ -42,6 +46,15 @@ export default function ChatRoomScreen(props) {
 						);
 					}
 				})}
+				<View style={styles.inputView}>
+					<TextInput
+						style={styles.input}
+						onChangeText={(e) => setOnChangeMsg(e)}
+						value={onChangeMsg}
+						placeholder=''
+					/>
+					<Button title='Send' onPress={handleSend}></Button>
+				</View>
 			</View>
 		</>
 	);
@@ -87,5 +100,20 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: "grey",
 		backgroundColor: "#fff",
+	},
+	input: {
+		flex: 1,
+		height: 40,
+		backgroundColor: "lightgray",
+		marginLeft: 10,
+		borderRadius: 5,
+		padding: 10,
+		marginRight: 10,
+		marginBottom: 10,
+	},
+	inputView: {
+		flexDirection: "row",
+		marginTop: 20,
+		marginLeft: 5,
 	},
 });

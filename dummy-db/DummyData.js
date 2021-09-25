@@ -21,7 +21,7 @@ export const Messages = [
 ];
 
 export const ChatRooms = [
-	new ChatRoom("1", "CBS Surf", "cbs-surf-2x.png", "Messages"),
-	new ChatRoom("2", "CBS Feminist Society", "urlToImage", "Messages"),
-	new ChatRoom("3", "CBS Students", "urlToImage", "Messages"),
+	new ChatRoom("1", "CBS Surf", "cbs-surf-2x.png", Messages),
+	new ChatRoom("2", "CBS Feminist Society", "urlToImage", []),
+	new ChatRoom("3", "CBS Students", "urlToImage", []),
 ];

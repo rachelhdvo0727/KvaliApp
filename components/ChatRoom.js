@@ -1,20 +1,32 @@
 import React from "react";
-import { StyleSheet, Image, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-const ChatRoom = (props) => (
-	<TouchableOpacity onPress={props.onPress}>
-		<View style={styles.container}>
-			{props.children}
-			{/* <Image source={props.imageSrc} /> */}
-			<View style={styles.textContainer}>
-				<Text style={(styles.texts, styles.titleText)}>{props.titleText}</Text>
-				<Text style={(styles.texts, styles.bodyText)} numberOfLines={2}>
-					{props.bodyText}
-				</Text>
+const ChatRoom = (props) => {
+	return (
+		<TouchableOpacity onPress={props.onPress}>
+			<View style={styles.container}>
+				{props.children}
+				{/* <Image source={props.imageSrc} /> */}
+				<View style={styles.textContainer}>
+					<Text style={[styles.texts, styles.titleText]}>
+						{props.titleText}
+					</Text>
+					<Text
+						style={[styles.texts, styles.bodyText]}
+						numberOfLines={1}
+						ellipsizeMode='tail'
+					>
+						{props.bodyText}
+					</Text>
+				</View>
+				<View style={styles.dotView}>
+					<View style={styles.dot}></View>
+					<Text>{props.timeStamp}</Text>
+				</View>
 			</View>
-		</View>
-	</TouchableOpacity>
-);
+		</TouchableOpacity>
+	);
+};
 
 export default ChatRoom;
 
@@ -41,4 +53,15 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 	bodyText: {},
+	dotView: {
+		marginLeft: "auto",
+		alignItems: "center",
+	},
+	dot: {
+		height: 12,
+		width: 12,
+		backgroundColor: "#5050A5",
+		borderRadius: 100 / 2,
+		marginBottom: 10,
+	},
 });
