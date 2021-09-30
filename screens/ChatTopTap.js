@@ -17,26 +17,27 @@ function ChatAsOrg() {
 
 const TopTap = createMaterialTopTabNavigator();
 
-export default function ChatTopTap() {
+export default function ChatTopTap(props) {
+	console.log(props)
 	return (
 		<TopTap.Navigator
 			screenOptions={{
 				tabBarActiveTintColor: "#5050A5",
 				tabBarLabelStyle: {
-					fontWeight: "bold",
+					fontWeight: "bold"
 				},
 				tabBarIndicatorStyle: {
 					backgroundColor: "#5050A5",
 					height: 4,
-					borderRadius: "10 10 0 0",
-				},
+					borderRadius: "10 10 0 0"
+				}
 			}}
 		>
 			<TopTap.Screen
 				name='ChatAsPrivate'
 				component={ChatScreen}
 				options={{
-					title: "Jacob Robertson",
+					title: "Jacob Robertson"
 				}}
 			/>
 			<TopTap.Screen

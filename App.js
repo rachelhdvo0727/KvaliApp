@@ -9,7 +9,7 @@ import ChatReducer from "./store/reducers/ChatReducer";
 // Navigation
 import {
 	NavigationContainer,
-	getFocusedRouteNameFromRoute,
+	getFocusedRouteNameFromRoute
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -33,11 +33,11 @@ function getHeaderTitle(route) {
 			return "CHAT";
 		case "MenuScreen":
 			return "MENU";
-		// Chat
 		case "ChatScreen":
 			return "CHAT";
+		// Chat
 		case "ChatRoomScreen":
-			return null;
+			return "CHAT";
 		case "ChatAsPrivate":
 			return "CHAT";
 		case "ChatAsOrg":
@@ -48,27 +48,27 @@ function getHeaderTitle(route) {
 const Stack = createNativeStackNavigator();
 export default function App() {
 	const rootReducer = combineReducers({
-		chat: ChatReducer,
+		chat: ChatReducer
 	});
 	const store = createStore(rootReducer);
 
 	return (
 		<Provider store={store}>
-			<NavigationContainer initialRouteName='HomeTab'>
+			<NavigationContainer initialRouteName=''>
 				<Stack.Navigator
 					screenOptions={{
 						headerTintColor: "#5050A5",
 						headerTitleStyle: {
 							fontWeight: "bold",
-							textTransform: "uppercase",
-						},
+							textTransform: "uppercase"
+						}
 					}}
 				>
 					<Stack.Screen
 						name='HomeTab'
 						component={HomeTab}
 						options={({ route }) => ({
-							headerTitle: getHeaderTitle(route),
+							headerTitle: getHeaderTitle(route)
 						})}
 					/>
 					<Stack.Screen
@@ -78,7 +78,7 @@ export default function App() {
 							headerTitle: getHeaderTitle(route),
 							headerRight: ({ focused, color, size }) => (
 								<Entypo name='new-message' size={size} color={color} />
-							),
+							)
 						})}
 					/>
 					<Stack.Screen
@@ -86,7 +86,7 @@ export default function App() {
 						component={ChatRoomScreen}
 						options={({ route }) => ({
 							title: route.params?.name,
-							headerBackTitleVisible: false,
+							headerBackTitleVisible: false
 						})}
 					/>
 				</Stack.Navigator>
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#fff",
 		alignItems: "center",
-		justifyContent: "center",
+		justifyContent: "center"
 	},
 	focusedBottomtab: {
 		borderTopWidth: 5,
 		borderTopColor: "#5050A5",
-		paddingTop: 4,
+		paddingTop: 4
 		// borderRadius: "10 10 0 0",
-	},
+	}
 });

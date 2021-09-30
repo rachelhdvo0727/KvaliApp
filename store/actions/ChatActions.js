@@ -1,15 +1,20 @@
 export const TOGGLE_HAPPY = "TOGGLE_HAPPY";
-export const NEW_CHATROOMS = "NEW_CHATROOMS";
-export const CHAT_ROOMS = "CHAT_ROOMS";
+export const NEW_CHATROOM = "NEW_CHATROOM";
+export const DELETE_CHATROOM = "DELETE_CHATROOM";
+export const NEW_MESSAGE = "NEW_MESSAGE";
 
 export const toggleHappy = (isHappy) => {
 	return { type: TOGGLE_HAPPY, payload: isHappy };
 };
 
-export const newChatRoom = (chatRoomNames) => {
-	return { type: NEW_CHATROOMS, payload: chatRoomNames };
+export const newChatRoom = (chatRoomName) => {
+	return { type: NEW_CHATROOM, payload: chatRoomName };
 };
 
-export const chatRooms = (chatRooms) => {
-	return { type: CHAT_ROOMS, payload: chatRooms };
+export const deleteChatRoom = (chatRoomId) => {
+	return { type: DELETE_CHATROOM, payload: chatRoomId };
+};
+
+export const newMessage = (chatRoomId, message) => {
+	return { type: NEW_MESSAGE, payload: { chatRoomId, message } };
 };
