@@ -21,15 +21,16 @@ import ChatRoomScreen from "./screens/ChatRoomScreen";
 // Icons
 import { Entypo } from "@expo/vector-icons";
 
-function getHeaderTitle(route) {
-	const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeTabs";
+const getHeaderTitle = (route) => {
+	// if routeName is undefined/null, return HomeTab
+	const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeTab";
 
 	switch (routeName) {
-		case "HomeTab":
+		case "HomeTab" && "HomeScreen":
 			return "HOME";
 		case "DiscoveryScreen":
-			return "DICOVERY";
-		case "ChatTopTap":
+			return "DISCOVERY";
+		case "ChatTopTab":
 			return "CHAT";
 		case "MenuScreen":
 			return "MENU";
@@ -43,8 +44,7 @@ function getHeaderTitle(route) {
 		case "ChatAsOrg":
 			return "CHAT";
 	}
-}
-
+};
 const Stack = createNativeStackNavigator();
 export default function App() {
 	const rootReducer = combineReducers({
@@ -54,7 +54,7 @@ export default function App() {
 
 	return (
 		<Provider store={store}>
-			<NavigationContainer initialRouteName=''>
+			<NavigationContainer>
 				<Stack.Navigator
 					screenOptions={{
 						headerTintColor: "#5050A5",
@@ -101,11 +101,5 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		alignItems: "center",
 		justifyContent: "center"
-	},
-	focusedBottomtab: {
-		borderTopWidth: 5,
-		borderTopColor: "#5050A5",
-		paddingTop: 4
-		// borderRadius: "10 10 0 0",
 	}
 });
