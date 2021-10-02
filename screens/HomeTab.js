@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Routes } from "../routes/Routes";
 // Screens
 import HomeScreen from "./HomeScreen";
 import DiscoveryScreen from "./DiscoveryScreen";
@@ -17,18 +18,18 @@ export default function HomeTab() {
 			screenOptions={{
 				headerShown: false,
 				headerTitleStyle: {
-					textTransform: "uppercase",
+					textTransform: "uppercase"
 				},
 				tabBarActiveTintColor: "#5050A5",
 				tabBarIconStyle: {
 					width: 40,
-					height: 100,
+					height: 100
 				},
 				tabBarLabelStyle: {
 					fontWeight: "600",
-					textTransform: "uppercase",
+					textTransform: "uppercase"
 				},
-				tabBarShowIcon: true,
+				tabBarShowIcon: true
 			}}
 		>
 			<Tab.Screen
@@ -42,8 +43,8 @@ export default function HomeTab() {
 						</View>
 					),
 					tabBarStyle: {
-						fontWeight: 700,
-					},
+						fontWeight: 700
+					}
 				}}
 			/>
 			<Tab.Screen
@@ -55,7 +56,7 @@ export default function HomeTab() {
 						<View style={focused && styles.focusedBottomtab}>
 							<FontAwesome name='search' size={size} color={color} />
 						</View>
-					),
+					)
 				}}
 			/>
 			<Tab.Screen
@@ -70,7 +71,7 @@ export default function HomeTab() {
 					),
 					headerRight: ({ focused, color, size }) => (
 						<Entypo name='new-message' size={size} color={color} />
-					),
+					)
 				}}
 			/>
 			<Tab.Screen
@@ -82,7 +83,7 @@ export default function HomeTab() {
 						<View style={focused && styles.focusedBottomtab}>
 							<Ionicons name='ios-menu' size={size} color={color} />
 						</View>
-					),
+					)
 				}}
 			/>
 		</Tab.Navigator>
@@ -91,9 +92,9 @@ export default function HomeTab() {
 
 const styles = StyleSheet.create({
 	focusedBottomtab: {
-		borderTopWidth: 5,
-		borderTopColor: "#5050A5",
-		paddingTop: 4,
+		// borderTopWidth: 5,
+		// borderTopColor: "#5050A5",
+		// paddingTop: 4
 		// borderRadius: "10 10 0 0",
-	},
+	}
 });
