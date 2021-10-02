@@ -26,7 +26,9 @@ const getHeaderTitle = (route) => {
 	const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeTab";
 
 	switch (routeName) {
-		case "HomeTab" && "HomeScreen":
+		case "HomeTab":
+			return "HOME";
+		case "HomeScreen":
 			return "HOME";
 		case "DiscoveryScreen":
 			return "DISCOVERY";
@@ -34,9 +36,9 @@ const getHeaderTitle = (route) => {
 			return "CHAT";
 		case "MenuScreen":
 			return "MENU";
+		// Chat
 		case "ChatScreen":
 			return "CHAT";
-		// Chat
 		case "ChatRoomScreen":
 			return "CHAT";
 		case "ChatAsPrivate":
