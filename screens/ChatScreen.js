@@ -61,11 +61,11 @@ export default function ChatScreen(props) {
 								});
 							}}
 							titleText={item.chatRoomName}
-							bodyText={
-								item.messages.length > 0
-									? item.messages[item.messages.length - 1].messageText
-									: null
-							}
+							// bodyText={
+							// 	item.messages.length > 0
+							// 		? item.messages[item.messages.length - 1].messageText
+							// 		: null
+							// }
 							children={
 								<Image
 									source={
@@ -83,13 +83,13 @@ export default function ChatScreen(props) {
 									}
 								/>
 							}
-							timeStamp={
-								item.messages.length > 0
-									? moment(
-											item.messages[item.messages.length - 1].messageTimestamp
-									  ).format("HH:mm")
-									: null
-							}
+							// timeStamp={
+							// 	item.messages.length > 0
+							// 		? moment(
+							// 				item.messages[item.messages.length - 1].messageTimestamp
+							// 		  ).format("HH:mm")
+							// 		: null
+							// }
 						></ChatRoom>
 						<Button
 							title='Delete'

@@ -18,10 +18,11 @@ function ChatAsOrg() {
 const TopTap = createMaterialTopTabNavigator();
 
 export default function ChatTopTap(props) {
-	console.log(props)
+	// console.log(props.route);
 	return (
 		<TopTap.Navigator
 			screenOptions={{
+				// headerTitle: props.routeName.headerTitle,
 				tabBarActiveTintColor: "#5050A5",
 				tabBarLabelStyle: {
 					fontWeight: "bold"
