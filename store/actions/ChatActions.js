@@ -1,3 +1,6 @@
+import User from "../../models/User";
+import Message from "../../models/Message";
+
 export const TOGGLE_HAPPY = "TOGGLE_HAPPY";
 export const NEW_CHATROOM = "NEW_CHATROOM";
 export const DELETE_CHATROOM = "DELETE_CHATROOM";
@@ -16,5 +19,12 @@ export const deleteChatRoom = (chatRoomId) => {
 };
 
 export const newMessage = (chatRoomId, message) => {
-	return { type: NEW_MESSAGE, payload: { chatRoomId, message } };
+	const tempUser = new User("1", "Peter Mølle", "Jensen", "dummyUrlLink");
+	const msg = new Message(
+		"3",
+		message,
+		new Date(2021, 0, 1, 12, 15, 5),
+		tempUser
+	);
+	return { type: NEW_MESSAGE, payload: { chatRoomId, msg } };
 };

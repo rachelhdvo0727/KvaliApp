@@ -6,7 +6,6 @@ import {
 } from "../actions/ChatActions";
 import { ChatRooms, Users } from "../../dummy-db/DummyData";
 import ChatRoom from "../../models/ChatRoom";
-import Message from "../../models/Message";
 
 const initialState = {
 	isHappy: false,
@@ -32,25 +31,28 @@ const ChatReducer = (state = initialState, action) => {
 				)
 			};
 		case NEW_MESSAGE:
-			const message = new Message(
-				tempId,
-				action.payload.message,
-				new Date(),
-				Users[0]
-			);
-			// Find the chatRoom obj based on chatRoomId
-			const currentChatRoom = state.chatRooms.find(
+			// Find the current chat room object
+			const currentChatroom = state.chatRooms.find(
 				(room) => room.chatRoomId === action.payload.chatRoomId
 			);
-			// Copy messages arr of the correct chatRoom obj
-			const messages = [...currentChatRoom.messages, message];
-			// Copy chatRooms to avoid state mutations,
-			// when updating the messages arr in the specific chatRoom obj
-			const test = {
-				...state, messages, 
-			};
-			console.log(test);
-			return test;
+			// Copy the messages array of the current chat room object
+			const chatMessages = [...currentChatroom.messages, action.payload.msg];
+
+			// Copy currentChatRoom object to a new chat room
+			const newChatRoom = { ...currentChatroom };
+
+			// Attach the copied chatMessages array
+			newChatRoom.messages = chatMessages;
+
+			// Insert the newChatRoom object into the chatRooms array
+			// Hint: use js-array's findIndex function, to find the index in the array of the object we want.
+			// js Splice method to create a new array and insert the created chatroom object.
+			const index = state.chatRooms.findIndex(
+				(room) => room.chatRoomId === action.payload.chatRoomId
+			);
+			const chatroomArray = [...state.chatRooms];
+			chatroomArray.splice(index, 1, newChatRoom);
+			return { ...state, chatRooms: chatRoomArr };
 
 		default:
 			return state;
