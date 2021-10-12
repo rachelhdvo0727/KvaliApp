@@ -5,5 +5,11 @@
         "titleBar.activeForeground": "#FFFAE9"
     },
     "editor.suggest.localityBonus": true,
-    "editor.suggest.preview": true
+    "editor.suggest.preview": true,
+    "cSpell.words": [
+        "Entypo",
+        "Mølle",
+        "Pressable",
+        "Zqita"
+    ]
 }

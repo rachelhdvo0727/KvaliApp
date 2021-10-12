@@ -20,7 +20,7 @@ export default function ChatRoomScreen(props) {
 
 	const dispatch = useDispatch();
 
-	const chatMessages = ChatRooms.find(
+	const chatMessages = useSelector((state) => state.chat.chatRooms).find(
 		(room) => room.chatRoomId === id
 	).messages;
 

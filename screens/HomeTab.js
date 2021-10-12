@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useSelector } from "react-redux";
 
 // Screens
 import HomeScreen from "./HomeScreen";
@@ -13,6 +14,8 @@ import { FontAwesome, Entypo, Ionicons } from "@expo/vector-icons";
 const Tab = createBottomTabNavigator();
 
 export default function HomeTab() {
+	// const loggedInUser = useSelector((state) => state.user?.loggedInUser);
+	// console.log("hometab", loggedInUser);
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -98,3 +101,16 @@ const styles = StyleSheet.create({
 		// borderRadius: "10 10 0 0",
 	}
 });
+
+{
+	/* <Tab.Screen
+				name='SignUpScreen'
+				component={SignUpScreen}
+				options={{
+					title: "Sign Up",
+					tabBarStyle: {
+						fontWeight: 700
+					}
+				}}
+			/> */
+}

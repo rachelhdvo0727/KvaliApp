@@ -2,9 +2,11 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 //Redux
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import ChatReducer from "./store/reducers/ChatReducer";
+import UserReducer from "./store/reducers/UserReducer";
+import ReduxThunk from "redux-thunk";
 
 // Navigation
 import {
@@ -17,19 +19,21 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeTab from "./screens/HomeTab";
 import ChatScreen from "./screens/ChatScreen";
 import ChatRoomScreen from "./screens/ChatRoomScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+import LogInScreen from "./screens/LogInScreen";
 
 // Icons
 import { Entypo } from "@expo/vector-icons";
 
 const getHeaderTitle = (route) => {
 	// if routeName is undefined/null, return HomeTab
-	const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeTab";
+	const routeName = getFocusedRouteNameFromRoute(route) ?? "SignUpScreen";
 
 	switch (routeName) {
 		case "HomeTab":
-			return "HOME";
+			return "FEED";
 		case "HomeScreen":
-			return "HOME";
+			return "FEED";
 		case "DiscoveryScreen":
 			return "DISCOVERY";
 		case "ChatTopTab":
@@ -45,14 +49,21 @@ const getHeaderTitle = (route) => {
 			return "CHAT";
 		case "ChatAsOrg":
 			return "CHAT";
+		// Signup
+		case "SignUpScreen":
+			return " ";
+		case "LogInScreen":
+			return " ";
 	}
 };
 const Stack = createNativeStackNavigator();
 export default function App() {
 	const rootReducer = combineReducers({
-		chat: ChatReducer
+		chat: ChatReducer,
+		user: UserReducer
 	});
-	const store = createStore(rootReducer);
+
+	const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 	return (
 		<Provider store={store}>
@@ -67,10 +78,26 @@ export default function App() {
 					}}
 				>
 					<Stack.Screen
+						name='SignUpScreen'
+						component={SignUpScreen}
+						options={({ route }) => ({
+							headerShown: false
+						})}
+					/>
+					<Stack.Screen
+						name='LogInScreen'
+						component={LogInScreen}
+						options={({ route }) => ({
+							headerShown: false
+						})}
+					/>
+					<Stack.Screen
 						name='HomeTab'
 						component={HomeTab}
 						options={({ route }) => ({
-							headerTitle: getHeaderTitle(route)
+							headerTitle: getHeaderTitle(route),
+							headerBackTitleVisible: false,
+							headerBackVisible: false
 						})}
 					/>
 					<Stack.Screen
