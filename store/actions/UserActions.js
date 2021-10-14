@@ -1,3 +1,5 @@
+import User from "../../models/User";
+
 export const SIGN_UP = "SIGN_UP";
 export const LOG_IN = "LOG_IN";
 
@@ -24,13 +26,14 @@ export const signUp = (email, password) => {
 			//There was a problem..
 			console.error(response);
 		} else {
-			dispatch({ type: SIGN_UP, payload: data });
+			const user = new User(data.localId, "", "", "", email);
+			dispatch({ type: SIGN_UP, payload: { user: user, token: data.idToken } });
 		}
 	};
 };
 
 export const logIn = (email, password) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		const response = await fetch(
 			"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
 				apiKey,
@@ -44,12 +47,16 @@ export const logIn = (email, password) => {
 				})
 			}
 		);
+
 		const data = await response.json();
 		if (!response.ok) {
 			//There was a problem..
 			console.error(data);
 		} else {
-			dispatch({ type: LOG_IN, payload: data });
+			const user = new User(data.localId, "", "", "", email?.toLowerCase());
+			dispatch({ type: LOG_IN, payload: { user: user, token: data.idToken } });
 		}
+		// const token = getState().data.token;
+		// console.log(token);
 	};
 };

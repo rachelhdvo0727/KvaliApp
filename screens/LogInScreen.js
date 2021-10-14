@@ -23,8 +23,8 @@ export default function LogInScreen(props) {
 	React.useEffect(() => {
 		if (loggedInUser !== undefined) {
 			// if user is found
-			console.log("found user");
-			navigation.navigate("HomeTab");
+			console.log("found user", loggedInUser);
+			// navigation.navigate("HomeTab");
 		}
 	});
 
