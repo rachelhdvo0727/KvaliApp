@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../store/actions/UserActions";
 import defaultStyles from "../styles/General";
 
-export default function HomeScreen(props) {
+export default function LogInScreen(props) {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 
@@ -14,10 +14,6 @@ export default function HomeScreen(props) {
 	const [password, onChangePassword] = React.useState("");
 
 	const loggedInUser = useSelector((state) => state.user?.loggedInUser);
-	// const sendDataToActions = () => {
-	// 	// Attach and Send to Back-end
-	// 	dispatch(logIn(email, password));
-	// };
 
 	const handleLogIn = () => {
 		// Attach and Send to Back-end
