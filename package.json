@@ -31,7 +31,17 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "prettier": "2.4.1"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "bracketSameLine": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "arrowParens": "avoid"
   },
   "private": true
 }
