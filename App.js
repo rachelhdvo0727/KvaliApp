@@ -8,23 +8,7 @@ import ChatReducer from './store/reducers/ChatReducer';
 import UserReducer from './store/reducers/UserReducer';
 import ReduxThunk from 'redux-thunk';
 
-// Navigation
-import {
-  NavigationContainer,
-  getFocusedRouteNameFromRoute,
-} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// Screens
-import HomeTab from './screens/HomeTab';
-import ChatScreen from './screens/ChatScreen';
-import ChatRoomScreen from './screens/ChatRoomScreen';
-import SignUpScreen from './screens/SignUpScreen';
-import LogInScreen from './screens/LogInScreen';
-
-// Icons
-import { Entypo } from '@expo/vector-icons';
-import Navigation from './Routes/Navigation';
+import Navigation from './routes/Navigation';
 
 export default function App() {
   const rootReducer = combineReducers({
