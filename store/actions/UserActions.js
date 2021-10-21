@@ -26,8 +26,7 @@ export const signUp = (email, password) => {
       //There was a problem..
       console.error(response);
     } else {
-      const user = new User(data.localId, '', '', '', email);
-      dispatch({ type: SIGN_UP, payload: { user: user, token: data.idToken } });
+      dispatch({ type: SIGN_UP, payload: data });
     }
   };
 };

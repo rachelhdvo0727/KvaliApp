@@ -10,7 +10,7 @@ import {
   Button,
   TextInput,
 } from 'react-native';
-import generalStyles from '../styles/General';
+import defaultStyles from '../styles/General';
 import ChatRoom from '../components/ChatRoom';
 import {
   toggleHappy,
@@ -37,10 +37,9 @@ export default function ChatScreen(props) {
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <SafeAreaView style={defaultStyles.pageCenter}>
       <TextInput
-        style={generalStyles.input}
+        style={defaultStyles.input}
         value={text}
         onChangeText={onChangeText}
       />

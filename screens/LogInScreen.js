@@ -40,6 +40,7 @@ export default function LogInScreen(props) {
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangePassword(v)}
+          secureTextEntry={true}
           value={password}
           placeholder="********"></TextInput>
       </View>

@@ -32,11 +32,13 @@ export default function SignUpScreen() {
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangePassword(v)}
+          secureTextEntry={true}
           value={password}
           placeholder="Must be at least 6 character"></TextInput>
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangeConfirmPass(v)}
+          secureTextEntry={true}
           value={confirmPass}
           placeholder="Re-enter your password"></TextInput>
       </View>

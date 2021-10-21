@@ -14,14 +14,4 @@ export default function HomeScreen(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  signUpLinkWrapper: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'center',
-    margin: 20,
-  },
-  forgotPass: {
-    margin: 10,
-  },
-});
+const styles = StyleSheet.create({});
