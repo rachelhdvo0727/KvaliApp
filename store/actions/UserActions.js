@@ -32,7 +32,7 @@ export const signUp = (email, password) => {
 };
 
 export const logIn = (email, password) => {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     const response = await fetch(
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
         apiKey,
@@ -55,7 +55,5 @@ export const logIn = (email, password) => {
       const user = new User(data.localId, '', '', '', email?.toLowerCase());
       dispatch({ type: LOG_IN, payload: { user: user, token: data.idToken } });
     }
-    // const token = getState().data.token;
-    // console.log(token);
   };
 };
