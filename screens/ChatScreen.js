@@ -13,26 +13,31 @@ import {
 import defaultStyles from '../styles/General';
 import ChatRoom from '../components/ChatRoom';
 import {
-  toggleHappy,
   newChatRoom,
   deleteChatRoom,
+  fetchChatRooms,
 } from '../store/actions/ChatActions';
 
 let moment = require('moment-timezone');
 
 export default function ChatScreen(props) {
+  React.useEffect(() => {
+    //Load chatRooms array from store
+    dispatch(fetchChatRooms());
+    console.log('chatScreen', chatRooms);
+  }, []);
+  const chatRooms = useSelector(state => state.chat.chatRooms);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [text, onChangeText] = useState('');
 
-  // const isHappy = useSelector((state) => state.chat.isHappy);
-  const chatRooms = useSelector(state => state.chat.chatRooms);
   const handleDelete = id => {
-    console.log('delete', id);
+    // console.log('delete', id);
     dispatch(deleteChatRoom(id));
   };
   const handleCreate = () => {
-    console.log(text);
+    console.log('create', text);
     dispatch(newChatRoom(text));
   };
 
@@ -47,14 +52,14 @@ export default function ChatScreen(props) {
 
       <FlatList
         data={chatRooms}
-        keyExtractor={item => item.chatRoomId}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <>
             <ChatRoom
               style={styles.image}
               onPress={() => {
                 navigation.navigate('ChatRoomScreen', {
-                  id: item.chatRoomId,
+                  id: item.id,
                   name: item.chatRoomName,
                 });
               }}
@@ -89,24 +94,23 @@ export default function ChatScreen(props) {
               // 		: null
               // }
             ></ChatRoom>
-            <Button
+            {/* <Button
               title="Delete"
-              onPress={handleDelete.bind(this, item.chatRoomId)}></Button>
+              onPress={handleDelete.bind(this, item.id)}></Button> */}
           </>
         )}></FlatList>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: 60,
-    height: 60,
-  },
-});
+const styles = StyleSheet.create({});
+
+// const mapDispatchToProps = {
+//   fetchChatRooms: () => dispatch(fetchChatRooms()),
+// };
+
+// const mapStateToProps = state => {
+//   chatRooms: state.chat.chatRooms;
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);

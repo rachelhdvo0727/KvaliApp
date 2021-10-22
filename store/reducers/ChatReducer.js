@@ -1,5 +1,6 @@
 import {
   TOGGLE_HAPPY,
+  CHAT_ROOMS,
   NEW_CHATROOM,
   DELETE_CHATROOM,
   NEW_MESSAGE,
@@ -9,8 +10,7 @@ import ChatRoom from '../../models/ChatRoom';
 
 const initialState = {
   isHappy: false,
-  chatRooms: ChatRooms,
-  // room: {}
+  chatRooms: [],
 };
 
 const tempId = Math.random().toString();
@@ -20,9 +20,14 @@ const ChatReducer = (state = initialState, action) => {
     case TOGGLE_HAPPY:
       return { ...state, isHappy: action.payload };
 
+    case CHAT_ROOMS:
+      return { ...state, chatRooms: action.payload };
+
     case NEW_CHATROOM:
-      const chatRoom = new ChatRoom(tempId, action.payload, '', []);
-      return { ...state, chatRooms: [...state.chatRooms, chatRoom] };
+      return {
+        ...state,
+        chatRooms: [...state.chatRooms, action.payload],
+      };
 
     case DELETE_CHATROOM:
       return {

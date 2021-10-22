@@ -1,6 +1,6 @@
 class ChatRoom {
-  constructor(chatRoomId, chatRoomName, imageUrl, messages) {
-    this.chatRoomId = chatRoomId;
+  constructor(id, chatRoomName, imageUrl, messages) {
+    this.id = id;
     this.chatRoomName = chatRoomName;
     this.imageUrl = imageUrl;
     this.messages = messages;
