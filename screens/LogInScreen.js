@@ -35,12 +35,14 @@ export default function LogInScreen(props) {
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangeEmail(v)}
+          autoCorrect={false}
           value={email}
           placeholder="student@student.cbs.dk"></TextInput>
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangePassword(v)}
           secureTextEntry={true}
+          autoCorrect={false}
           value={password}
           placeholder="********"></TextInput>
       </View>

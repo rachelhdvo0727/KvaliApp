@@ -16,39 +16,40 @@ import {
   newChatRoom,
   deleteChatRoom,
   fetchChatRooms,
+  fetchMessages,
 } from '../store/actions/ChatActions';
 
 let moment = require('moment-timezone');
 
 export default function ChatScreen(props) {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
     //Load chatRooms array from store
     dispatch(fetchChatRooms());
-    console.log('chatScreen', chatRooms);
+    // console.log('chatScreen', chatRooms);
   }, []);
+
   const chatRooms = useSelector(state => state.chat.chatRooms);
 
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
   const [text, onChangeText] = useState('');
-
+  const handleCreate = () => {
+    dispatch(newChatRoom(text));
+  };
   const handleDelete = id => {
     // console.log('delete', id);
     dispatch(deleteChatRoom(id));
   };
-  const handleCreate = () => {
-    console.log('create', text);
-    dispatch(newChatRoom(text));
-  };
 
   return (
     <SafeAreaView style={defaultStyles.pageCenter}>
-      <TextInput
+      {/* <TextInput
         style={defaultStyles.input}
         value={text}
         onChangeText={onChangeText}
       />
-      <Button title="Create New Room" onPress={handleCreate} />
+      <Button title="Create New Room" onPress={handleCreate} /> */}
 
       <FlatList
         data={chatRooms}
@@ -62,6 +63,7 @@ export default function ChatScreen(props) {
                   id: item.id,
                   name: item.chatRoomName,
                 });
+                dispatch(fetchMessages(item.id));
               }}
               titleText={item.chatRoomName}
               // bodyText={
@@ -86,6 +88,7 @@ export default function ChatScreen(props) {
                   }
                 />
               }
+              timeStamp={props.timeStamp}
               // timeStamp={
               // 	item.messages.length > 0
               // 		? moment(

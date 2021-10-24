@@ -27,17 +27,20 @@ export default function SignUpScreen() {
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangeEmail(v)}
+          autoCorrect={false}
           value={email}
           placeholder="student@student.cbs.dk"></TextInput>
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangePassword(v)}
+          autoCorrect={false}
           secureTextEntry={true}
           value={password}
           placeholder="Must be at least 6 character"></TextInput>
         <TextInput
           style={defaultStyles.formInput}
           onChangeText={v => onChangeConfirmPass(v)}
+          autoCorrect={false}
           secureTextEntry={true}
           value={confirmPass}
           placeholder="Re-enter your password"></TextInput>

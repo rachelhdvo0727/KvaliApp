@@ -5,7 +5,7 @@ const Message = props => {
   return (
     <View style={[styles.wrapper, props.msgWrapperStyles]}>
       <View style={[styles.messageContainer, props.msgBoxStyles]}>
-        {props.senderImage}
+        {props.receiverImage}
         <View style={[styles.textMsgContainer, props.textMsgBoxStyles]}>
           <Text style={[styles.textMsg, props.textMsgStyles]}>
             {props.text}

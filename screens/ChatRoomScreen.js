@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { newMessage } from '../store/actions/ChatActions';
+import { fetchMessages, newMessage } from '../store/actions/ChatActions';
 import { Messages, ChatRooms } from '../dummy-db/DummyData';
 
 import {
@@ -16,49 +16,57 @@ import Message from '../components/Message';
 let moment = require('moment-timezone');
 
 export default function ChatRoomScreen(props) {
-  const id = props.route.params.id;
-
   const dispatch = useDispatch();
+  const chatRoomId = props.route.params.id; // chatroom Id
+  React.useEffect(() => {
+    console.log('chatRoomScreen', chatMessages);
+    console.log(props);
+  });
+  const chatMessages = useSelector(state => state.chat.messages);
+  const loggedInUser = useSelector(state => state.user.loggedInUser.id);
 
-  const chatMessages = useSelector(state => state.chat.chatRooms).find(
-    room => room.chatRoomId === id,
-  ).messages;
+  // const chatMessages = useSelector(state => state.chat.chatRooms).find(
+  //   room => room.id === chatRoomId,
+  // ).messages;
 
   const [onChangeMsg, setOnChangeMsg] = React.useState('');
   const handleSend = () => {
-    console.log('value ' + onChangeMsg);
-    dispatch(newMessage(id, onChangeMsg));
-    // console.log(dispatch(newMessage(id, onChangeMsg)));
+    const timestamp = new Date();
+    dispatch(newMessage(loggedInUser, onChangeMsg, timestamp, chatRoomId));
+    setOnChangeMsg('');
   };
+
   return (
     <>
       <View style={styles.view}>
         <FlatList
           data={chatMessages}
-          keyExtractor={item => item.messageId}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <Message
-              msgWrapperStyles={item.user.id === '1' && styles.alignMsgBox}
-              msgBoxStyles={item.user.id === '1' && styles.alignMsgBox}
+              msgWrapperStyles={
+                chatRoomId === item.receiver && styles.alignMsgBox
+              }
+              msgBoxStyles={chatRoomId === item.user && styles.alignMsgBox}
               textMsgBoxStyles={
-                item.user.id === '1'
+                item.user === loggedInUser
                   ? styles.sentMsgContainer
                   : styles.incomingMsgContainer
               }
-              textMsgStyles={item.user.id === '1' && styles.sentMsgText}
+              textMsgStyles={styles.sentMsgText}
               text={item.messageText}
-              timeStampText={moment(item.messageTimestamp).format('HH:mm')}
+              timeStampText={moment(item.timestamp).format('HH:mm')}
               timeStampStyles={{
-                textAlign: item.user.id === '1' ? 'right' : 'left',
+                textAlign: loggedInUser === item.user ? 'right' : 'left',
               }}
-              senderImage={
-                item.user.id !== '1' && (
-                  <Image
-                    style={styles.senderImage}
-                    source={require('../assets/cbs-surf/cbs-surf.png')}
-                  />
-                )
-              }
+              // receiverImage={
+              //   item.receiver === chatRoomId && (
+              //     <Image
+              //       style={styles.receiverImage}
+              //       source={require('../assets/cbs-surf/cbs-surf.png')}
+              //     />
+              //   )
+              // }
             />
           )}></FlatList>
         <View style={styles.inputView}>
@@ -95,7 +103,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
     backgroundColor: '#5050A5',
   },
-  senderImage: {
+  receiverImage: {
     width: 30,
     height: 30,
   },

@@ -1,9 +1,10 @@
 class Message {
-  constructor(messageId, messageText, messageTimestamp, user) {
-    this.messageId = messageId;
+  constructor(id, messageText, timestamp, user, receiver) {
+    this.id = id;
     this.messageText = messageText;
-    this.messageTimestamp = messageTimestamp;
+    this.timestamp = timestamp;
     this.user = user;
+    this.receiver = receiver;
   }
 }
 
