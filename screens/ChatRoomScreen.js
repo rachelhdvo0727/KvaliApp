@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { newMessage } from '../store/actions/ChatActions';
 import { Messages, ChatRooms } from '../dummy-db/DummyData';
+import MessageObj from '../models/Message';
 
 import {
   StyleSheet,
@@ -16,19 +17,20 @@ import Message from '../components/Message';
 let moment = require('moment-timezone');
 
 export default function ChatRoomScreen(props) {
+  const dispatch = useDispatch();
   const id = props.route.params.id;
 
-  const dispatch = useDispatch();
-
+  const loggedInUser = useSelector(state => state.user.loggedInUser);
   const chatMessages = useSelector(state => state.chat.chatRooms).find(
     room => room.chatRoomId === id,
   ).messages;
 
   const [onChangeMsg, setOnChangeMsg] = React.useState('');
+
   const handleSend = () => {
     console.log('value ' + onChangeMsg);
-    dispatch(newMessage(id, onChangeMsg));
-    // console.log(dispatch(newMessage(id, onChangeMsg)));
+    const msg = new MessageObj('', onChangeMsg, new Date(), loggedInUser);
+    dispatch(newMessage(id, msg));
   };
   return (
     <>
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    backgroundColor: 'lightgray',
+    backgroundColor: 'lightgrey',
     marginLeft: 10,
     borderRadius: 5,
     padding: 10,

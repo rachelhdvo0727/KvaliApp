@@ -1,31 +1,45 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
-import { Link, useNavigation } from '@react-navigation/native';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { logIn } from '../store/actions/UserActions';
+import { Link } from '@react-navigation/native';
 import defaultStyles from '../styles/General';
+import { getSavedData } from '../utils/functions';
+
+import { useDispatch } from 'react-redux';
+import { logIn, restoreUser, refreshToken } from '../store/actions/UserActions';
 
 export default function LogInScreen(props) {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
-
-  const loggedInUser = useSelector(state => state.user?.loggedInUser);
-
   const handleLogIn = () => {
-    // Attach and Send to Back-end
+    // Attach and Send to Actions
     dispatch(logIn(email, password));
   };
 
   React.useEffect(() => {
-    if (loggedInUser !== undefined) {
-      // if user is found
-      console.log('found user', loggedInUser);
-      navigation.navigate('HomeTab');
+    async function fetchTokenFromStorage() {
+      let userToken, user;
+      try {
+        let expired = new Date(
+          JSON.parse(await SecureStore.getItemAsync('expiresIn')),
+        );
+
+        // Refresh token if current user's expiry is less than real-time
+        if (expired < new Date()) {
+          dispatch(
+            refreshToken(await SecureStore.getItemAsync('refreshToken')),
+          );
+        }
+
+        userToken = getSavedData('token');
+        user = JSON.parse(await SecureStore.getItemAsync('userObj'));
+      } catch (e) {
+        console.error(e);
+      }
+      dispatch(restoreUser(user, userToken));
     }
+    fetchTokenFromStorage();
   });
 
   return (

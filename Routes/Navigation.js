@@ -1,12 +1,11 @@
 import React from 'react';
-
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// Redux
 import { useSelector } from 'react-redux';
-
 // Screens
 import HomeTab from '../screens/HomeTab';
 import ChatScreen from '../screens/ChatScreen';
@@ -49,7 +48,7 @@ const getHeaderTitle = route => {
 };
 
 export default function Navigation() {
-  const loggedInUser = useSelector(state => state.user.loggedInUser);
+  const loggedInUser = useSelector(state => state?.user?.loggedInUser);
   return (
     <NavigationContainer>
       {loggedInUser !== undefined ? (

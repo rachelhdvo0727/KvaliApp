@@ -2,12 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import defaultStyles from '../styles/General';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signUp } from '../store/actions/UserActions';
 import { Link } from '@react-navigation/native';
 
 export default function SignUpScreen() {
   const dispatch = useDispatch();
+
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   const [confirmPass, onChangeConfirmPass] = React.useState('');
