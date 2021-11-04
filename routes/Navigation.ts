@@ -48,7 +48,7 @@ const getHeaderTitle = route => {
 };
 
 export default function Navigation() {
-  const loggedInUser = useSelector(state => state?.user?.loggedInUser);
+  const loggedInUser = useSelector((state: any) => state?.user?.loggedInUser);
   return (
     <NavigationContainer>
       {loggedInUser !== undefined ? (

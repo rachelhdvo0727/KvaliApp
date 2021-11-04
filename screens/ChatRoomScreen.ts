@@ -13,17 +13,20 @@ import {
   FlatList,
 } from 'react-native';
 import Message from '../components/Message';
+import { RootState } from '../App';
 
 let moment = require('moment-timezone');
 
-export default function ChatRoomScreen(props) {
+export default function ChatRoomScreen(props: any) {
   const dispatch = useDispatch();
   const id = props.route.params.id;
 
-  const loggedInUser = useSelector(state => state.user.loggedInUser);
-  const chatMessages = useSelector(state => state.chat.chatRooms).find(
-    room => room.chatRoomId === id,
-  ).messages;
+  const loggedInUser = useSelector(
+    (state: RootState) => state.user.loggedInUser,
+  );
+  const chatMessages = useSelector(
+    (state: RootState) => state.chat.chatRooms,
+  ).find((room: any) => room.chatRoomId === id).messages;
 
   const [onChangeMsg, setOnChangeMsg] = React.useState('');
 

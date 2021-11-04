@@ -4,30 +4,45 @@ import {
   LOG_OUT,
   REFRESH_TOKEN,
 } from '../actions/UserActions';
+import User from '../../models/User';
+import { tassign } from 'tassign';
 
-const initialState = {
-  loggedInUser: undefined,
-  token: undefined,
+interface UserState {
+  loggedInUser: User | null;
+  token: string | null;
+}
+
+const initialState: UserState = {
+  loggedInUser: null,
+  token: null,
 };
 
-const UserReducer = (state = initialState, action) => {
+const UserReducer = (state: UserState = initialState, action: any) => {
   switch (action.type) {
     case SIGN_UP:
       return state;
+
     case LOG_IN:
-      return {
-        ...state,
+      // return {
+      //   ...state,
+      //   loggedInUser: action.payload.user,
+      //   token: action.payload.token,
+      // };
+      return tassign(state, {
         loggedInUser: action.payload.user,
         token: action.payload.token,
-      };
+      });
+
     case LOG_OUT:
       return {
         ...state,
         loggedInUser: undefined,
         token: undefined,
       };
+
     case REFRESH_TOKEN:
       return { ...state, token: action.payload };
+
     default:
       return state;
   }

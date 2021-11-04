@@ -1,6 +1,5 @@
 import User from '../../models/User';
 import { saveData, objToString, deleteSavedData } from '../../utils/functions';
-import * as SecureStore from 'expo-secure-store';
 
 export const SIGN_UP = 'SIGN_UP';
 export const LOG_IN = 'LOG_IN';
@@ -57,17 +56,18 @@ export const logIn = (email, password) => {
     } else {
       console.log('actions', data);
       const user = new User(data.localId, '', '', '', email?.toLowerCase());
-      dispatch({ type: LOG_IN, payload: { user: user, token: data.idToken } });
 
       // convert time
-      let expiresIn = new Date();
-      expiresIn.setSeconds(expiresIn.getSeconds() + parseInt(data.expiresIn));
+      let expiredIn = new Date();
+      expiredIn.setSeconds(expiredIn.getSeconds() + parseInt(data.expiresIn));
 
       // save user in SecureStore
       saveData('userObj', objToString(user));
       saveData('token', data.idToken);
       saveData('refreshToken', data.refreshToken);
-      saveData('expiresIn', JSON.stringify(expiresIn));
+      saveData('expiresIn', JSON.stringify(expiredIn));
+
+      dispatch({ type: LOG_IN, payload: { user: user, token: data.idToken } });
     }
   };
 };
@@ -81,6 +81,7 @@ export const logOut = () => {
   deleteSavedData('token');
   return { type: LOG_OUT };
 };
+
 export const refreshToken = refreshToken => {
   return async dispatch => {
     const response = await fetch(
