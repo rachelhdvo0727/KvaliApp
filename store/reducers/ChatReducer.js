@@ -58,7 +58,7 @@ const ChatReducer = (state = initialState, action) => {
       );
       const chatroomArray = [...state.chatRooms];
       chatroomArray.splice(index, 1, newChatRoom);
-      return { ...state, chatRooms: chatRoomArr };
+      return { ...state, chatRooms: chatroomArray };
 
     default:
       return state;

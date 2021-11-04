@@ -41,7 +41,7 @@ export default function ChatRoomScreen(props: any) {
         <FlatList
           data={chatMessages}
           keyExtractor={item => item.messageId}
-          renderItem={({ item }) => (
+          renderItem={({ item: any }) => (
             <Message
               msgWrapperStyles={item.user.id === '1' && styles.alignMsgBox}
               msgBoxStyles={item.user.id === '1' && styles.alignMsgBox}

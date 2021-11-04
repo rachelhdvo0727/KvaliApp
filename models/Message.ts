@@ -4,7 +4,7 @@ class Message {
   constructor(
     public messageId: string,
     public messageText: string,
-    public messageTimestamp: string,
+    public messageTimestamp: Date,
     public user: User,
   ) {
     this.messageId = messageId;

@@ -91,12 +91,33 @@ export const deleteChatRoom = chatRoomId => {
 };
 
 export const newMessage = (chatRoomId, message) => {
-  const tempUser = new User('1', 'Peter Mølle', 'Jensen', 'dummyUrlLink');
-  const msg = new Message(
-    '3',
-    message,
-    new Date(2021, 0, 1, 12, 15, 5),
-    tempUser,
-  );
-  return { type: NEW_MESSAGE, payload: { chatRoomId, msg } };
+  return async (dispatch, getState) => {
+    const token = getState().user.token; // accessing token in the state.
+    const response = await fetch(
+      `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/chatrooms/${chatRoomId}messages.json?auth=${token}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...message,
+        }),
+      },
+    );
+    const data = await response.json();
+    !response.ok
+      ? console.error(data)
+      : dispatch({
+          type: NEW_MESSAGE,
+          payload: { chatRoomId, message: message },
+        });
+  };
+
+  // const tempUser = new User('1', 'Peter Mølle', 'Jensen', 'dummyUrlLink');
+  // const msg = new Message(
+  //   '3',
+  //   message,
+  //   new Date(2021, 0, 1, 12, 15, 5),
+  //   tempUser,
+  // );
+  // return { type: NEW_MESSAGE, payload: { chatRoomId, msg } };
 };

@@ -8,8 +8,8 @@ export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 
 const apiKey = 'AIzaSyBWOZqita1CRS5gN9bFCaj_o3kaQd4vLWc';
 
-export const signUp = (email, password) => {
-  return async dispatch => {
+export const signUp = (email: string, password: string) => {
+  return async (dispatch: (arg0: { type: string; payload: any }) => any) => {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
       {
@@ -25,17 +25,19 @@ export const signUp = (email, password) => {
       },
     );
     const data = await response.json(); // json to javascript
-    if (!response.ok) {
-      //There was a problem..
-      console.error(response);
-    } else {
-      dispatch({ type: SIGN_UP, payload: data });
-    }
+    !response.ok
+      ? console.error(data)
+      : dispatch({ type: SIGN_UP, payload: data });
   };
 };
 
-export const logIn = (email, password) => {
-  return async dispatch => {
+export const logIn = (email: string, password: string) => {
+  return async (
+    dispatch: (arg0: {
+      type: string;
+      payload: { user: User; token: any };
+    }) => void,
+  ) => {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
       {
@@ -51,7 +53,6 @@ export const logIn = (email, password) => {
 
     const data = await response.json();
     if (!response.ok) {
-      //There was a problem..
       console.error(data);
     } else {
       console.log('actions', data);
@@ -72,7 +73,7 @@ export const logIn = (email, password) => {
   };
 };
 
-export const restoreUser = (user, token) => {
+export const restoreUser = (user: Object, token: string) => {
   return { type: LOG_IN, payload: { user, token } };
 };
 
@@ -82,8 +83,8 @@ export const logOut = () => {
   return { type: LOG_OUT };
 };
 
-export const refreshToken = refreshToken => {
-  return async dispatch => {
+export const refreshToken = (refreshToken: string) => {
+  return async (dispatch: (arg0: { type: string; payload: any }) => any) => {
     const response = await fetch(
       `https://securetoken.googleapis.com/v1/token?key=${apiKey}`,
       {
@@ -98,12 +99,9 @@ export const refreshToken = refreshToken => {
       },
     );
     const data = await response.json(); // json to javascript
-    if (!response.ok) {
-      //There was a problem..
-      console.error(response);
-    } else {
-      dispatch({ type: REFRESH_TOKEN, payload: data.idToken });
-      console.log(data);
-    }
+    !response.ok
+      ? console.error(data)
+      : dispatch({ type: REFRESH_TOKEN, payload: data.idToken }) &&
+        console.log(data);
   };
 };
