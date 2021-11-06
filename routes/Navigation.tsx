@@ -76,7 +76,7 @@ export default function Navigation() {
                   component={ChatScreen}
                   options={({ route }) => ({
                      headerTitle: getHeaderTitle(route),
-                     headerRight: ({ focused, color, size }) => (
+                     headerRight: ({ color, size }) => (
                         <Entypo name="new-message" size={size} color={color} />
                      ),
                   })}

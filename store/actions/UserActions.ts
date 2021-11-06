@@ -26,7 +26,7 @@ export const signUp = (email: string, password: string) => {
       );
       const data = await response.json(); // json to javascript
       !response.ok
-         ? console.error(data)
+         ? console.log('signUp err', data)
          : dispatch({ type: SIGN_UP, payload: data });
    };
 };
@@ -53,10 +53,18 @@ export const logIn = (email: string, password: string) => {
 
       const data = await response.json();
       if (!response.ok) {
-         console.error(data);
+         console.log('logIn err', data);
       } else {
-         console.log('actions', data);
-         const user = new User(data.localId, '', '', '', email?.toLowerCase());
+         const user = new User(
+            data.localId,
+            '',
+            '',
+            '',
+            email?.toLowerCase(),
+            '',
+            '',
+            '',
+         );
 
          // convert time
          let expiredIn = new Date();
@@ -88,7 +96,7 @@ export const logOut = () => {
    return { type: LOG_OUT };
 };
 
-export const refreshToken = (refreshToken: string) => {
+export const refreshToken = (refreshToken: any) => {
    return async (dispatch: (arg0: { type: string; payload: any }) => any) => {
       const response = await fetch(
          `https://securetoken.googleapis.com/v1/token?key=${apiKey}`,
@@ -99,14 +107,14 @@ export const refreshToken = (refreshToken: string) => {
             },
             body: JSON.stringify({
                refresh_token: refreshToken,
-               grant_type: 'refresh_token',
+               grant_type: 'refresh_token'
             }),
          },
       );
       const data = await response.json(); // json to javascript
       !response.ok
-         ? console.error(data)
-         : dispatch({ type: REFRESH_TOKEN, payload: data.idToken }) &&
+         ? console.log('refreshToken err', data)
+         : dispatch({ type: REFRESH_TOKEN, payload: data.id_token }) &&
            console.log(data);
    };
 };

@@ -5,9 +5,11 @@ import defaultStyles from '../styles/General';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../store/actions/UserActions';
 import { Link } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/core';
 
 export default function SignUpScreen() {
    const dispatch = useDispatch();
+   const navigation = useNavigation();
 
    const [email, onChangeEmail] = React.useState('');
    const [password, onChangePassword] = React.useState('');
@@ -15,7 +17,8 @@ export default function SignUpScreen() {
 
    const handleSignUp = () => {
       password === confirmPass
-         ? dispatch(signUp(email, password))
+         ? dispatch(signUp(email, password)) &&
+           navigation.navigate('LogInScreen')
          : console.error(password, confirmPass);
    };
 
