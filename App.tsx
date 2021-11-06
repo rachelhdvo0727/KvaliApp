@@ -11,19 +11,19 @@ import ReduxThunk from 'redux-thunk';
 import Navigation from './routes/Navigation';
 
 const rootReducer = combineReducers({
-    chat: ChatReducer,
-    user: UserReducer,
+   chat: ChatReducer,
+   user: UserReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 
 export default function App() {
-    const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+   const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-    return (
-        <Provider store={store}>
-            <Navigation />
-        </Provider>
-    );
+   return (
+      <Provider store={store}>
+         <Navigation />
+      </Provider>
+   );
 }
 
 const styles = StyleSheet.create({});
