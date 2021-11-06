@@ -8,12 +8,12 @@ import User from '../../models/User';
 import { tassign } from 'tassign';
 
 interface UserState {
-   loggedInUser: User | null;
+   loggedInUser: User | undefined;
    token: string | null;
 }
 
 const initialState: UserState = {
-   loggedInUser: null,
+   loggedInUser: undefined,
    token: null,
 };
 

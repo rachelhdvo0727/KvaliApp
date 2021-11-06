@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import { Link } from '@react-navigation/native';
 import defaultStyles from '../styles/General';
 import { getSavedData } from '../utils/functions';
+import * as SecureStore from 'expo-secure-store';
 
 import { useDispatch } from 'react-redux';
 import { logIn, restoreUser, refreshToken } from '../store/actions/UserActions';
@@ -27,9 +28,7 @@ export default function LogInScreen(props) {
 
             // Refresh token if current user's expiry is less than real-time
             if (expired < new Date()) {
-               dispatch(
-                  refreshToken(await SecureStore.getItemAsync('refreshToken')),
-               );
+               dispatch(refreshToken(getSavedData('refreshToken')));
             }
 
             userToken = getSavedData('token');
