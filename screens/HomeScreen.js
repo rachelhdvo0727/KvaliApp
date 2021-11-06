@@ -5,13 +5,13 @@ import { logIn } from '../store/actions/UserActions';
 import defaultStyles from '../styles/General';
 
 export default function HomeScreen(props) {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  return (
-    <View style={defaultStyles.pageCenter}>
-      <Text style={[defaultStyles.headerH1]}>FEED</Text>
-    </View>
-  );
+    return (
+        <View style={defaultStyles.pageCenter}>
+            <Text style={[defaultStyles.headerH1]}>FEED</Text>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({});
