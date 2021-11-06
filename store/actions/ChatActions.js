@@ -112,6 +112,7 @@ export const newMessage = (chatRoomId, message) => {
            });
    };
 
+   // Before firebase db
    // const tempUser = new User('1', 'Peter Mølle', 'Jensen', 'dummyUrlLink');
    // const msg = new Message(
    //   '3',
