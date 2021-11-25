@@ -1,5 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
+import TextField from '../components/TextField';
+import HrBar from '../components/HrBar';
+import AppLogo from '../components/svgs/AppLogo';
 import defaultStyles from '../styles/General';
 
 import { useDispatch } from 'react-redux';
@@ -12,39 +15,71 @@ export default function SignUpScreen() {
    const navigation = useNavigation();
 
    const [email, onChangeEmail] = React.useState('');
+   const [emailValid, setEmailValid] = React.useState(false);
+
    const [password, onChangePassword] = React.useState('');
    const [confirmPass, onChangeConfirmPass] = React.useState('');
+   const [passwordValid, setPasswordValid] = React.useState(false);
 
    const handleSignUp = () => {
       password === confirmPass
          ? dispatch(signUp(email, password)) &&
            navigation.navigate('LogInScreen')
-         : console.error(password, confirmPass);
+         : setPasswordValid(false) && console.error(password, confirmPass);
    };
+
+   const [shadowOffsetWidth, setShadowOffsetWidth] = React.useState(0);
+   const [shadowOffsetHeight, setShadowOffsetHeight] = React.useState(0);
+   const [shadowRadius, setShadowRadius] = React.useState(0);
+   const [shadowOpacity, setShadowOpacity] = React.useState(0.5);
 
    return (
       <View style={defaultStyles.pageCenter}>
+         <AppLogo />
          <Text style={[defaultStyles.headerH1, styles.titleAlign]}>
             Sign up to get access
          </Text>
-         <View style={[defaultStyles.fieldset, defaultStyles.lightShadow]}>
-            <TextInput
-               style={defaultStyles.formInput}
-               onChangeText={v => onChangeEmail(v)}
+         <View
+            style={[
+               defaultStyles.fieldset,
+               defaultStyles.lightShadow,
+               {
+                  shadowOffset: {
+                     width: shadowOffsetWidth,
+                     height: -shadowOffsetHeight,
+                  },
+                  shadowOpacity,
+                  shadowRadius,
+               },
+            ]}>
+            <TextField
+               inputLabel="e-mail"
+               placeholder="@student.cbs.dk"
                value={email}
-               placeholder="student@student.cbs.dk"></TextInput>
-            <TextInput
-               style={defaultStyles.formInput}
-               onChangeText={v => onChangePassword(v)}
-               secureTextEntry={true}
+               isValueValid={emailValid}
+               onValid={valid => setEmailValid(valid)}
+               setContent={content => onChangeEmail(content)}
+               isSignUpScreen={true}></TextField>
+            <HrBar />
+            <TextField
+               inputLabel="Password"
+               placeholder="**********"
+               isSecureTextEntry={true}
                value={password}
-               placeholder="Must be at least 6 character"></TextInput>
-            <TextInput
-               style={defaultStyles.formInput}
-               onChangeText={v => onChangeConfirmPass(v)}
-               secureTextEntry={true}
+               isValueValid={passwordValid}
+               onValid={valid => setPasswordValid(valid)}
+               setContent={content => onChangePassword(content)}
+               isSignUpScreen={true}></TextField>
+            <HrBar />
+            <TextField
+               inputLabel="Repeat password"
+               placeholder="**********"
+               isSecureTextEntry={true}
+               errorMessage="Passwords don't match"
                value={confirmPass}
-               placeholder="Re-enter your password"></TextInput>
+               isValueValid={passwordValid}
+               onValid={valid => setPasswordValid(valid)}
+               setContent={content => onChangeConfirmPass(content)}></TextField>
          </View>
          <Pressable
             style={[defaultStyles.btnPrimary, defaultStyles.lightShadow]}

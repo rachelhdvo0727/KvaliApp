@@ -15,7 +15,7 @@ import LogInScreen from '../screens/LogInScreen';
 
 const Stack = createNativeStackNavigator();
 
-const getHeaderTitle = route => {
+const getHeaderTitle = (route: any) => {
    // if routeName is undefined/null, return HomeTab
    const routeName = getFocusedRouteNameFromRoute(route) ?? 'SignUpScreen';
 

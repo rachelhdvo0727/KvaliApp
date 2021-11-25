@@ -16,8 +16,6 @@ const initialState: ChatState = {
    chatRooms: [],
 };
 
-const tempId = Math.random().toString();
-
 const ChatReducer = (state: ChatState = initialState, action: any) => {
    switch (action.type) {
       case TOGGLE_HAPPY:

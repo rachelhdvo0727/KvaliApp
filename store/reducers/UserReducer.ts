@@ -23,11 +23,6 @@ const UserReducer = (state: UserState = initialState, action: any) => {
          return state;
 
       case LOG_IN:
-         // return {
-         //   ...state,
-         //   loggedInUser: action.payload.user,
-         //   token: action.payload.token,
-         // };
          return tassign(state, {
             loggedInUser: action.payload.user,
             token: action.payload.token,

@@ -1,17 +1,20 @@
 import { StyleSheet } from 'react-native';
 
 export default generalStyles = StyleSheet.create({
+   headerH1: {
+      fontWeight: 'bold',
+      fontSize: 26,
+      color: '#32305D',
+   },
+   normalText: {
+      fontSize: 12,
+   },
    pageCenter: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       padding: 20,
       backgroundColor: '#fff',
-   },
-   headerH1: {
-      fontWeight: 'bold',
-      fontSize: 26,
-      color: '#32305D',
    },
    input: {
       height: 40,
@@ -30,8 +33,11 @@ export default generalStyles = StyleSheet.create({
       borderColor: '#EEEEEE',
    },
    fieldset: {
+      flexDirection: 'column',
+      padding: 0,
+      width: '100%',
       margin: 20,
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: '#EEEEEE',
       borderRadius: 5,
    },
@@ -50,8 +56,8 @@ export default generalStyles = StyleSheet.create({
    },
    lightShadow: {
       shadowColor: '#AAAAAA29',
-      shadowOpacity: 5,
-      shadowOffset: { width: 0, height: 2 },
+      // shadowOpacity: 5,
+      // shadowOffset: { width: 0, height: 2 },
    },
 });
 

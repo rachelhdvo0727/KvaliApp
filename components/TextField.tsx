@@ -1,60 +1,74 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
+import defaultStyles from '../styles/General';
 
 interface Props {
    inputLabel: string;
-   text: string;
+   value: string;
+   placeholder: string;
+   isSecureTextEntry: boolean;
    errorMessage: string;
-   isValid: boolean;
+   isValueValid: boolean;
    onValid(arg: boolean): void;
    setContent(arg: string): void;
 }
 
 export default function TextField({
    inputLabel,
-   text,
+   value,
+   placeholder,
+   isSecureTextEntry,
    errorMessage,
-   isValid,
+   isValueValid,
    onValid,
    setContent,
 }: Props) {
    const [touched, setTouched] = React.useState(false);
+   const [isSignUpScreen, setIsSignUpScreen] = React.useState(false);
 
    const handleChangeText = (enteredText: string) => {
       setTouched(true);
       enteredText === '' ? onValid(false) : onValid(true);
       setContent(enteredText);
    };
-   return (
-      <View style={styles.textFieldContainer}>
-         <Text>{inputLabel}</Text>
 
+   return (
+      <View style={[styles.textFieldContainer]}>
+         <Text style={[styles.textfieldLabel, defaultStyles.normalText]}>
+            {inputLabel}
+         </Text>
          <TextInput
             style={styles.textfield}
-            value={text}
+            value={value}
             onChangeText={handleChangeText}
-            onBlur={() => setTouched(true)}></TextInput>
+            onBlur={() => setTouched(true)}
+            placeholder={placeholder}
+            secureTextEntry={isSecureTextEntry}></TextInput>
 
          {/* Error message */}
-         {!isValid && touched && <Text>{errorMessage}</Text>}
+         {isSignUpScreen && !isValueValid && touched && (
+            <Text>{errorMessage}</Text>
+         )}
       </View>
    );
 }
 
 const styles = StyleSheet.create({
-   textfield: {
-      flex: 1,
-      height: 40,
-      backgroundColor: 'lightgrey',
-      marginLeft: 10,
-      borderRadius: 5,
-      padding: 10,
-      marginRight: 10,
-      marginBottom: 10,
-   },
    textFieldContainer: {
-      flexDirection: 'row',
-      marginTop: 20,
-      marginLeft: 5,
+      flexDirection: 'column',
+      paddingVertical: 10,
+   },
+   textfieldLabel: {
+      fontWeight: '700',
+      textTransform: 'uppercase',
+      color: '#32305D',
+      paddingHorizontal: 10,
+   },
+   textfield: {
+      backgroundColor: '#fff',
+      marginHorizontal: 10,
+      marginVertical: 13,
+      // borderColor: '#000',
+      // borderWidth: 1,
    },
 });
