@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+// Redux
 import { useNavigation } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
    StyleSheet,
    FlatList,
@@ -17,8 +17,6 @@ import {
    deleteChatRoom,
    fetchChatRooms,
 } from '../store/actions/ChatActions';
-
-let moment = require('moment-timezone');
 
 export default function ChatScreen(props) {
    React.useEffect(() => {
@@ -42,14 +40,8 @@ export default function ChatScreen(props) {
    };
 
    return (
-      <SafeAreaView style={defaultStyles.pageCenter}>
-         <TextInput
-            style={defaultStyles.input}
-            value={text}
-            onChangeText={onChangeText}
-         />
-         <Button title="Create New Room" onPress={handleCreate} />
-
+      <SafeAreaView
+         style={[defaultStyles.pageCenter, defaultStyles.loggedInBackground]}>
          <FlatList
             data={chatRooms}
             keyExtractor={item => item.id}

@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import { Link } from '@react-navigation/native';
 import defaultStyles from '../styles/General';
-import { getSavedData } from '../utils/functions';
 import * as SecureStore from 'expo-secure-store';
 
 import { useDispatch } from 'react-redux';
@@ -20,29 +19,41 @@ export default function LogInScreen(props) {
 
    React.useEffect(() => {
       async function fetchTokenFromStorage() {
-         let userToken, user;
+         let userToken, user, expiration, now, refreshTokenString;
+
          try {
-            let expired = new Date(
-               JSON.parse(await SecureStore.getItemAsync('expiresIn')),
+            expiration = new Date(
+               JSON.parse(await SecureStore.getItemAsync('expiration')),
             );
-
-            // Refresh token if current user's expiry is less than real-time
-            if (expired < new Date()) {
-               dispatch(refreshToken(getSavedData('refreshToken')));
+            now = new Date();
+            // if expiration.....
+            console.log('expiration', expiration);
+            console.log('now', now);
+            if (expiration < now) {
+               // then it is expired
+               console.log('refresh token');
+               refreshTokenString = await SecureStore.getItemAsync(
+                  'refreshToken',
+               );
+               dispatch(refreshToken(refreshTokenString));
             }
+            console.log('no refresh token');
 
-            userToken = getSavedData('token');
-            user = JSON.parse(await SecureStore.getItemAsync('userObj'));
+            userToken = await SecureStore.getItemAsync('userToken');
+            user = JSON.parse(await SecureStore.getItemAsync('user'));
          } catch (e) {
+            // Restoring token failed
+            console.log('restore token failed');
             console.error(e);
          }
+
          dispatch(restoreUser(user, userToken));
       }
       fetchTokenFromStorage();
    });
 
    return (
-      <View style={defaultStyles.pageCenter}>
+      <View style={[defaultStyles.pageCenter, defaultStyles.welcomeBackground]}>
          <Text style={[defaultStyles.headerH1, styles.titleAlign]}>Log in</Text>
          <View style={[defaultStyles.fieldset, defaultStyles.lightShadow]}>
             <TextInput
@@ -88,5 +99,8 @@ const styles = StyleSheet.create({
    },
    titleAlign: {
       alignSelf: 'flex-start',
+   },
+   welcomeView: {
+      backgroundColor: '#fff',
    },
 });

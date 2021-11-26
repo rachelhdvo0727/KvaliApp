@@ -1,9 +1,11 @@
 import React from 'react';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { newMessage } from '../store/actions/ChatActions';
-import { Messages, ChatRooms } from '../dummy-db/DummyData';
+// import { Messages, ChatRooms } from '../dummy-db/DummyData';
 import MessageObj from '../models/Message';
 
+// Components
 import {
    StyleSheet,
    TextInput,

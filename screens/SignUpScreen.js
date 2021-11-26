@@ -28,30 +28,13 @@ export default function SignUpScreen() {
          : setPasswordValid(false) && console.error(password, confirmPass);
    };
 
-   const [shadowOffsetWidth, setShadowOffsetWidth] = React.useState(0);
-   const [shadowOffsetHeight, setShadowOffsetHeight] = React.useState(0);
-   const [shadowRadius, setShadowRadius] = React.useState(0);
-   const [shadowOpacity, setShadowOpacity] = React.useState(0.5);
-
    return (
-      <View style={defaultStyles.pageCenter}>
+      <View style={[defaultStyles.pageCenter, defaultStyles.welcomeBackground]}>
          <AppLogo />
          <Text style={[defaultStyles.headerH1, styles.titleAlign]}>
             Sign up to get access
          </Text>
-         <View
-            style={[
-               defaultStyles.fieldset,
-               defaultStyles.lightShadow,
-               {
-                  shadowOffset: {
-                     width: shadowOffsetWidth,
-                     height: -shadowOffsetHeight,
-                  },
-                  shadowOpacity,
-                  shadowRadius,
-               },
-            ]}>
+         <View style={[styles.shadow, defaultStyles.fieldset]}>
             <TextField
                inputLabel="e-mail"
                placeholder="@student.cbs.dk"
@@ -105,5 +88,8 @@ const styles = StyleSheet.create({
    },
    titleAlign: {
       alignSelf: 'flex-start',
+   },
+   shadow: {
+      ...defaultStyles.lightShadow,
    },
 });

@@ -12,7 +12,6 @@ export default function UserProfile(props) {
             title="Go to User profile... again"
             onPress={() => navigation.push('User')}
          />
-         {/*  */}
          <Button title="Go back" onPress={() => navigation.goBack()} />
       </View>
    );

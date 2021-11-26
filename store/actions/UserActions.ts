@@ -1,5 +1,6 @@
 import User from '../../models/User';
 import { saveData, objToString, deleteSavedData } from '../../utils/functions';
+import * as SecureStore from 'expo-secure-store';
 
 export const SIGN_UP = 'SIGN_UP';
 export const LOG_IN = 'LOG_IN';
@@ -91,8 +92,10 @@ export const restoreUser = (user: Object, token: string) => {
 };
 
 export const logOut = () => {
-   deleteSavedData('userObj');
-   deleteSavedData('token');
+   SecureStore.setItemAsync('userToken', '');
+   SecureStore.setItemAsync('user', '');
+   SecureStore.setItemAsync('expiration', '');
+   SecureStore.setItemAsync('refreshToken', '');
    return { type: LOG_OUT };
 };
 
@@ -107,7 +110,7 @@ export const refreshToken = (refreshToken: any) => {
             },
             body: JSON.stringify({
                refresh_token: refreshToken,
-               grant_type: 'refresh_token'
+               grant_type: 'refresh_token',
             }),
          },
       );

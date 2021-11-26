@@ -10,6 +10,6 @@ export async function getSavedData(key) {
    await SecureStore.getItemAsync(key);
 }
 
-export async function deleteSavedData(key) {
+export async function deleteSavedData(key, value) {
    await SecureStore.getItemAsync(key);
 }

@@ -8,7 +8,8 @@ export default function HomeScreen(props) {
    const dispatch = useDispatch();
 
    return (
-      <View style={defaultStyles.pageCenter}>
+      <View
+         style={[defaultStyles.pageCenter, defaultStyles.loggedInBackground]}>
          <Text style={[defaultStyles.headerH1]}>FEED</Text>
       </View>
    );

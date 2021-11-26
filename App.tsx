@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
-
+import { StyleSheet } from 'react-native';
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
 //Redux
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -16,12 +17,30 @@ const rootReducer = combineReducers({
 });
 export type RootState = ReturnType<typeof rootReducer>;
 
+const loadFonts = () => {
+   return Font.loadAsync({
+      'Teko-Medium': require('./assets/fonts/Teko/Teko-Medium.ttf'),
+      'OpenSans-Regular': require('./assets/fonts/OpenSans/OpenSans-Regular.ttf'),
+      'OpenSans-Medium': require('./assets/fonts/OpenSans/OpenSans-Medium.ttf'),
+      'OpenSans-Bold': require('./assets/fonts/OpenSans/OpenSans-Bold.ttf'),
+   });
+};
+
 export default function App() {
    const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+   const [fontLoaded, setFontLoaded] = React.useState(false);
 
    return (
       <Provider store={store}>
-         <Navigation />
+         {!fontLoaded ? (
+            <AppLoading
+               startAsync={loadFonts}
+               onFinish={() => setFontLoaded(true)}
+               onError={error => console.error(error)}
+            />
+         ) : (
+            <Navigation />
+         )}
       </Provider>
    );
 }

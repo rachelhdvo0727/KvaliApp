@@ -1,64 +1,66 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Screens
 import HomeScreen from './HomeScreen';
-import DiscoveryScreen from './DiscoveryScreen';
+import DiscoverScreen from './DiscoverScreen';
 import ChatTopTap from './ChatTopTap';
 import MenuScreen from './MenuScreen';
 
 import { FontAwesome, Entypo, Ionicons } from '@expo/vector-icons';
 
+import { newChatRoom } from '../store/actions/ChatActions';
+
 const Tab = createBottomTabNavigator();
 
 export default function HomeTab() {
-   // const loggedInUser = useSelector((state) => state.user?.loggedInUser);
-   // console.log("hometab", loggedInUser);
+   const insets = useSafeAreaInsets();
    return (
       <Tab.Navigator
          screenOptions={{
-            headerShown: false,
             headerTitleStyle: {
                textTransform: 'uppercase',
+               color: '#5050A5',
+               fontFamily: 'Teko-Medium',
+               fontSize: 26,
             },
             tabBarActiveTintColor: '#5050A5',
-            tabBarIconStyle: {
-               width: 40,
-               height: 100,
-            },
             tabBarLabelStyle: {
-               fontWeight: '600',
                textTransform: 'uppercase',
+               fontFamily: 'Teko-Medium',
+               fontSize: 16,
             },
             tabBarShowIcon: true,
+            tabBarStyle: {
+               height: 90,
+            },
          }}>
          <Tab.Screen
             name="HomeScreen"
             component={HomeScreen}
             options={{
+               headerTitle: 'Feed',
                title: 'Home',
                tabBarIcon: ({ focused, color, size }) => (
                   <View style={focused && styles.focusedBottomtab}>
                      <Entypo name="home" size={size} color={color} />
                   </View>
                ),
-               tabBarStyle: {
-                  fontWeight: 700,
-               },
             }}
          />
          <Tab.Screen
-            name="DiscoveryScreen"
-            component={DiscoveryScreen}
+            name="DiscoverScreen"
+            component={DiscoverScreen}
             options={{
-               title: 'Discovery',
+               title: 'Discover',
                tabBarIcon: ({ focused, color, size }) => (
                   <View style={focused && styles.focusedBottomtab}>
                      <FontAwesome name="search" size={size} color={color} />
                   </View>
                ),
+               headerShadowVisible: true,
             }}
          />
          <Tab.Screen
@@ -71,8 +73,15 @@ export default function HomeTab() {
                      <Entypo name="chat" size={size} color={color} />
                   </View>
                ),
-               headerRight: ({ focused, color, size }) => (
-                  <Entypo name="new-message" size={size} color={color} />
+               headerRight: () => (
+                  <View style={styles.newMessageIcon}>
+                     <Entypo
+                        name="new-message"
+                        size={20}
+                        color="#5050A5"
+                        // onPress={handleCreate}
+                     />
+                  </View>
                ),
             }}
          />
@@ -94,10 +103,12 @@ export default function HomeTab() {
 
 const styles = StyleSheet.create({
    focusedBottomtab: {
-      // borderTopWidth: 5,
-      // borderTopColor: "#5050A5",
-      // paddingTop: 4
-      // borderRadius: "10 10 0 0",
+      // borderTopWidth: 3,
+      // borderTopColor: '#5050A5',
+      // borderRadius: 5,
+   },
+   newMessageIcon: {
+      marginRight: 20,
    },
 });
 
