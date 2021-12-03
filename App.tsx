@@ -1,19 +1,22 @@
 import React from 'react';
+// Styles
 import { StyleSheet } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-//Redux
+// Redux
+import ReduxThunk from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ChatReducer from './store/reducers/ChatReducer';
 import UserReducer from './store/reducers/UserReducer';
-import ReduxThunk from 'redux-thunk';
+import EventReducer from './store/reducers/EventReducers';
 
 import Navigation from './routes/Navigation';
 
 const rootReducer = combineReducers({
    chat: ChatReducer,
    user: UserReducer,
+   event: EventReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 
