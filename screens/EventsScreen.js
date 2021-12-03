@@ -17,8 +17,12 @@ export default function EventsScreen() {
       weekday: 'short',
       month: 'long',
       day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+   };
+   const entTimeOptions = {
+      hour: 'numeric',
+      minute: 'numeric',
    };
 
    return (
@@ -41,9 +45,13 @@ export default function EventsScreen() {
                      iconDateTime={
                         <Ionicons name="time-sharp" size={18} color="#fff" />
                      }
-                     date={new Date(item?.dateTime).toLocaleDateString(
+                     start={new Date(item?.dateTime?.start).toLocaleDateString(
                         'da-DK',
                         dateTimeOptions,
+                     )}
+                     end={new Date(item?.dateTime?.end).toLocaleTimeString(
+                        'da-DK',
+                        entTimeOptions,
                      )}
                      address={item?.venue + item?.address}
                      imageSource={
