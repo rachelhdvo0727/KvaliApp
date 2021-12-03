@@ -26,12 +26,8 @@ export default function LogInScreen(props) {
                JSON.parse(await SecureStore.getItemAsync('expiration')),
             );
             now = new Date();
-            // if expiration.....
-            console.log('expiration', expiration);
-            console.log('now', now);
             if (expiration < now) {
                // then it is expired
-               console.log('refresh token');
                refreshTokenString = await SecureStore.getItemAsync(
                   'refreshToken',
                );
@@ -44,7 +40,6 @@ export default function LogInScreen(props) {
          } catch (e) {
             // Restoring token failed
             console.log('restore token failed');
-            console.error(e);
          }
 
          dispatch(restoreUser(user, userToken));
