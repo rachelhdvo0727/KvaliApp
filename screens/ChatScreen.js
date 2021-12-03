@@ -19,15 +19,17 @@ import {
 } from '../store/actions/ChatActions';
 
 export default function ChatScreen(props) {
+   const navigation = useNavigation();
+   const dispatch = useDispatch();
+
    React.useEffect(() => {
       //Load chatRooms array from store
       dispatch(fetchChatRooms());
       console.log('chatScreen', chatRooms);
    }, []);
+   
    const chatRooms = useSelector(state => state.chat.chatRooms);
 
-   const navigation = useNavigation();
-   const dispatch = useDispatch();
    const [text, onChangeText] = useState('');
 
    const handleDelete = id => {
