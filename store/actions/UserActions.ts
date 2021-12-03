@@ -74,10 +74,10 @@ export const logIn = (email: string, password: string) => {
          );
 
          // save user in SecureStore
-         saveData('userObj', objToString(user));
+         saveData('user', objToString(user));
          saveData('token', data.idToken);
          saveData('refreshToken', data.refreshToken);
-         saveData('expiresIn', JSON.stringify(expiredIn));
+         saveData('expiration', JSON.stringify(expiredIn));
 
          dispatch({
             type: LOG_IN,
@@ -117,7 +117,6 @@ export const refreshToken = (refreshToken: any) => {
       const data = await response.json(); // json to javascript
       !response.ok
          ? console.log('refreshToken err', data)
-         : dispatch({ type: REFRESH_TOKEN, payload: data.id_token }) &&
-           console.log(data);
+         : dispatch({ type: REFRESH_TOKEN, payload: data.id_token });
    };
 };
