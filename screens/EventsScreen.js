@@ -1,12 +1,16 @@
 import React from 'react';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '../store/actions/EventActions';
+
+import { useNavigation } from '@react-navigation/core';
 
 import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
 import { FontAwesome, Entypo, Ionicons } from '@expo/vector-icons';
 import CardGradient from '../components/CardGradient';
 
 export default function EventsScreen() {
+   const navigation = useNavigation();
    const dispatch = useDispatch();
    React.useEffect(() => {
       dispatch(fetchEvents());
@@ -38,19 +42,19 @@ export default function EventsScreen() {
                      iconAddress={
                         <Ionicons
                            name="location-sharp"
-                           size={18}
+                           size={16}
                            color="#fff"
                         />
                      }
                      iconDateTime={
-                        <Ionicons name="time-sharp" size={18} color="#fff" />
+                        <Ionicons name="time-sharp" size={16} color="#fff" />
                      }
                      start={new Date(item?.dateTime?.start).toLocaleDateString(
-                        'da-DK',
+                        'en-UK',
                         dateTimeOptions,
                      )}
                      end={new Date(item?.dateTime?.end).toLocaleTimeString(
-                        'da-DK',
+                        'en-UK',
                         entTimeOptions,
                      )}
                      address={item?.venue + item?.address}
@@ -70,9 +74,13 @@ export default function EventsScreen() {
                         (item?.imageName === 'cbs-film-oldboy' &&
                            require('../assets/discover-events-imgs/cbs-film-oldboy.png'))
                      }
+                     onPress={() =>
+                        navigation.navigate('EventDetailsScreen', {
+                           eventTitle: item?.eventTitle,
+                        })
+                     }
                   />
-               )}
-               scrollEnabled={true}></FlatList>
+               )}></FlatList>
          </View>
       </View>
    );

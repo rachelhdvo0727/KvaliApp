@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 // Redux
-import { useNavigation } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
 import {
    StyleSheet,
@@ -10,6 +9,9 @@ import {
    Button,
    TextInput,
 } from 'react-native';
+
+import { useNavigation } from '@react-navigation/core';
+
 import defaultStyles from '../styles/General';
 import ChatRoom from '../components/ChatRoom';
 import {
@@ -27,7 +29,7 @@ export default function ChatScreen(props) {
       dispatch(fetchChatRooms());
       console.log('chatScreen', chatRooms);
    }, []);
-   
+
    const chatRooms = useSelector(state => state.chat.chatRooms);
 
    const [text, onChangeText] = useState('');
@@ -98,13 +100,3 @@ export default function ChatScreen(props) {
 }
 
 const styles = StyleSheet.create({});
-
-// const mapDispatchToProps = {
-//   fetchChatRooms: () => dispatch(fetchChatRooms()),
-// };
-
-// const mapStateToProps = state => {
-//   chatRooms: state.chat.chatRooms;
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);

@@ -18,6 +18,7 @@ interface Props {
    imageSource: { uri: string };
    iconDateTime: (arg: any) => void;
    iconAddress: (arg: any) => void;
+   onPress: (arg: any) => void;
 }
 
 export default function CardOverlay({
@@ -29,9 +30,10 @@ export default function CardOverlay({
    iconDateTime,
    iconAddress,
    imageSource,
+   onPress,
 }: Props) {
    return (
-      <TouchableOpacity style={[styles.container, defaultStyles.headerH1]}>
+      <TouchableOpacity style={styles.container} onPress={onPress}>
          <ImageBackground
             source={imageSource}
             resizeMode="cover"
@@ -86,7 +88,6 @@ const styles = StyleSheet.create({
    container: {
       flexDirection: 'column',
       justifyContent: 'flex-end',
-      borderRadius: 5,
       height: 175,
       width: 337,
       paddingBottom: 5,
@@ -131,8 +132,6 @@ const styles = StyleSheet.create({
    },
    background: {
       borderRadius: 5,
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
       position: 'absolute',
       height: 174,
       top: 0,

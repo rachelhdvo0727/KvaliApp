@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import HomeTab from '../screens/HomeTab';
 import ChatScreen from '../screens/ChatScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
+import EventDetailsScreen from '../screens/EventDetailsScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import LogInScreen from '../screens/LogInScreen';
 
@@ -78,6 +79,14 @@ export default function Navigation() {
                   component={ChatRoomScreen}
                   options={({ route }) => ({
                      title: route.params?.name,
+                     headerBackTitleVisible: false,
+                  })}
+               />
+               <Stack.Screen
+                  name="EventDetailsScreen"
+                  component={EventDetailsScreen}
+                  options={({ route }) => ({
+                     title: route.params?.eventTitle,
                      headerBackTitleVisible: false,
                   })}
                />

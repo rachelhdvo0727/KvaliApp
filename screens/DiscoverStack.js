@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import DiscoverScreen from './DiscoverScreen';
 import EventsScreen from './EventsScreen';
+import EventDetailsScreen from './EventDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 const DiscoverStack = () => {
@@ -32,6 +33,14 @@ const DiscoverStack = () => {
                headerTitle: 'EVENTS',
                headerBackTitle: '',
             }}
+         />
+         <Stack.Screen
+            name="EventDetailsScreen"
+            component={EventDetailsScreen}
+            options={({ route }) => ({
+               headerTitle: route.params?.eventTitle,
+               headerBackTitle: '',
+            })}
          />
       </Stack.Navigator>
    );
