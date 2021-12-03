@@ -12,8 +12,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 interface Props {
    title: string;
    groupName: string;
-   date: string;
-   time: string;
+   start: string;
+   end: string;
    address: string;
    imageSource: { uri: string };
    iconDateTime: (arg: any) => void;
@@ -23,8 +23,8 @@ interface Props {
 export default function CardOverlay({
    title,
    groupName,
-   date,
-   time,
+   start,
+   end,
    address,
    iconDateTime,
    iconAddress,
@@ -63,7 +63,7 @@ export default function CardOverlay({
                         defaultStyles.whiteText,
                         styles.datetimeText,
                      ]}>
-                     {date} - {time}
+                     {start} - {end}
                   </Text>
                </View>
                {/* TODO: truncate address */}
