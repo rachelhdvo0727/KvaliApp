@@ -4,8 +4,6 @@ import {
    getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AppLoading from 'expo-app-loading';
-import * as Font from 'expo-font';
 // Redux
 import { useSelector } from 'react-redux';
 // Screens
@@ -18,14 +16,16 @@ import LogInScreen from '../screens/LogInScreen';
 const Stack = createNativeStackNavigator();
 
 const getHeaderTitle = route => {
-   // if routeName is undefined/null, return HomeTab
-   const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeTab';
-
+   const routeName = getFocusedRouteNameFromRoute(route);
+   console.log(routeName);
    switch (routeName) {
       case 'HomeTab' && 'HomeScreen':
          return 'FEED';
+      // Discover
       case 'DiscoverScreen':
          return 'DISCOVER';
+      case 'EventsScreen':
+         return 'EVENTS';
       case 'MenuScreen':
          return 'MENU';
       // Chat
@@ -45,6 +45,7 @@ const getHeaderTitle = route => {
 
 export default function Navigation() {
    const loggedInUser = useSelector(state => state?.user?.loggedInUser);
+   console.log(loggedInUser);
 
    return (
       <NavigationContainer>
