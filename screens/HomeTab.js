@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Screens
 import HomeScreen from './HomeScreen';
-import DiscoverScreen from './DiscoverScreen';
+import DiscoverStack from './DiscoverStack';
 import ChatTopTap from './ChatTopTap';
 import MenuScreen from './MenuScreen';
 
@@ -16,7 +15,7 @@ import { newChatRoom } from '../store/actions/ChatActions';
 const Tab = createBottomTabNavigator();
 
 export default function HomeTab() {
-   const insets = useSafeAreaInsets();
+
    return (
       <Tab.Navigator
          screenOptions={{
@@ -51,9 +50,10 @@ export default function HomeTab() {
             }}
          />
          <Tab.Screen
-            name="DiscoverScreen"
-            component={DiscoverScreen}
+            name="DiscoverStack"
+            component={DiscoverStack}
             options={{
+               headerShown: false,
                title: 'Discover',
                tabBarIcon: ({ focused, color, size }) => (
                   <View style={focused && styles.focusedBottomtab}>
