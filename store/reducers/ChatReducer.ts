@@ -1,5 +1,4 @@
 import {
-   TOGGLE_HAPPY,
    CHAT_ROOMS,
    NEW_CHATROOM,
    DELETE_CHATROOM,
@@ -7,20 +6,15 @@ import {
 } from '../actions/ChatActions';
 
 interface ChatState {
-   isHappy: Boolean;
    chatRooms: Array<any>;
 }
 
 const initialState: ChatState = {
-   isHappy: false,
    chatRooms: [],
 };
 
 const ChatReducer = (state: ChatState = initialState, action: any) => {
    switch (action.type) {
-      case TOGGLE_HAPPY:
-         return { ...state, isHappy: action.payload };
-
       case CHAT_ROOMS:
          return { ...state, chatRooms: action.payload };
 
@@ -37,6 +31,7 @@ const ChatReducer = (state: ChatState = initialState, action: any) => {
                (room: any) => room?.id !== action.payload,
             ),
          };
+
       case NEW_MESSAGE:
          // Find the current chat room object
          const currentChatroom = state.chatRooms.find(
