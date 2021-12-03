@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, ImageBackground } from 'react-native';
+import {
+   StyleSheet,
+   View,
+   TouchableOpacity,
+   Text,
+   ImageBackground,
+} from 'react-native';
 import defaultStyles from '../styles/General';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -25,7 +31,7 @@ export default function CardOverlay({
    imageSource,
 }: Props) {
    return (
-      <View style={[styles.container, defaultStyles.headerH1]}>
+      <TouchableOpacity style={[styles.container, defaultStyles.headerH1]}>
          <ImageBackground
             source={imageSource}
             resizeMode="cover"
@@ -35,48 +41,44 @@ export default function CardOverlay({
                style={styles.background}
             />
             <View style={styles.contentWrapper}>
-               <Text
-                  style={[
-                     styles.textWrapper,
-                     styles.title,
-                     defaultStyles.whiteText,
-                  ]}>
-                  {title}
-               </Text>
-               <Text
-                  style={[
-                     styles.textWrapper,
-                     defaultStyles.whiteText,
-                     defaultStyles.normalText,
-                  ]}>
-                  {groupName}
-               </Text>
-
-               <View style={[styles.textWrapper]}>
-                  <View style={styles.icons}>{iconDateTime}</View>
+               <View style={[styles.titleWrapper]}>
+                  <Text style={[styles.title, defaultStyles.whiteText]}>
+                     {title}
+                  </Text>
                   <Text
                      style={[
                         defaultStyles.whiteText,
                         defaultStyles.normalText,
+                        styles.groupName,
+                     ]}>
+                     {groupName}
+                  </Text>
+               </View>
+
+               <View style={[styles.iconTextWrapper]}>
+                  <View style={styles.icons}>{iconDateTime}</View>
+                  <Text
+                     style={[
+                        defaultStyles.normalText,
+                        defaultStyles.whiteText,
                         styles.datetimeText,
                      ]}>
                      {date} - {time}
                   </Text>
                </View>
-
-               <View style={[styles.textWrapper]}>
+               {/* TODO: truncate address */}
+               <View style={[styles.iconTextWrapper]}>
                   <View style={styles.icons}>{iconAddress}</View>
                   <Text
-                     style={[
-                        defaultStyles.whiteText,
-                        defaultStyles.normalText,
-                     ]}>
+                     style={[defaultStyles.whiteText, styles.addressText]}
+                     numberOfLines={1}
+                     ellipsizeMode="tail">
                      {address}
                   </Text>
                </View>
             </View>
          </ImageBackground>
-      </View>
+      </TouchableOpacity>
    );
 }
 
@@ -88,34 +90,49 @@ const styles = StyleSheet.create({
       height: 175,
       width: 337,
       paddingBottom: 5,
-      margin: 20,
+      marginVertical: 13,
+      marginHorizontal: 20,
    },
    contentWrapper: {
       paddingHorizontal: 13,
-      paddingTop: 55,
+      paddingTop: 64,
       zIndex: 999,
+   },
+   iconTextWrapper: {
+      paddingBottom: 3,
+      flexDirection: 'row',
+      alignItems: 'center',
+      // maxWidth: 280,
+   },
+   titleWrapper: {
+      paddingBottom: 3,
+      flexDirection: 'column',
    },
    title: {
       fontSize: 26,
       fontFamily: 'Teko-Medium',
    },
-   textWrapper: {
-      paddingBottom: 3,
-      flexDirection: 'row',
-      alignItems: 'center',
-      fontFamily: 'OpenSans-Regular',
-   },
+   groupName: { fontFamily: 'OpenSans-Bold' },
    datetimeText: {
       textTransform: 'uppercase',
-      fontFamily: 'OpenSans-Regular',
-      fontWeight: '700',
+      fontFamily: 'OpenSans-Bold',
+   },
+   addressText: {
+      ...defaultStyles.normalText,
+      flex: 1,
    },
    icons: {
       marginRight: 5,
    },
-   image: { flex: 1, justifyContent: 'center', height: '100%' },
+   image: {
+      flex: 1,
+      justifyContent: 'center',
+      height: '100%',
+   },
    background: {
       borderRadius: 5,
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5,
       position: 'absolute',
       height: 174,
       top: 0,
