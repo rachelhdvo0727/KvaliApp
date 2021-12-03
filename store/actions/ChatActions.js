@@ -2,17 +2,13 @@ import User from '../../models/User';
 import Message from '../../models/Message';
 import ChatRoom from '../../models/ChatRoom';
 
-export const TOGGLE_HAPPY = 'TOGGLE_HAPPY';
 export const CHAT_ROOMS = 'CHAT_ROOMS';
 export const NEW_CHATROOM = 'NEW_CHATROOM';
 export const DELETE_CHATROOM = 'DELETE_CHATROOM';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
+export const MESSAGES = 'MESSAGES';
 
-export const toggleHappy = isHappy => {
-   return { type: TOGGLE_HAPPY, payload: isHappy };
-};
 
-const tempId = Math.random().toString(36).substr(2);
 export const fetchChatRooms = () => {
    return async (dispatch, getState) => {
       // redux thunk
@@ -40,7 +36,6 @@ export const fetchChatRooms = () => {
             // Add objects with id in the newArray
             newArray.push(roomObj);
          }
-         // console.log('action', newArray);
          dispatch({
             type: CHAT_ROOMS,
             payload: newArray,
@@ -111,14 +106,4 @@ export const newMessage = (chatRoomId, message) => {
               payload: { chatRoomId, message: message },
            });
    };
-
-   // Before firebase db
-   // const tempUser = new User('1', 'Peter Mølle', 'Jensen', 'dummyUrlLink');
-   // const msg = new Message(
-   //   '3',
-   //   message,
-   //   new Date(2021, 0, 1, 12, 15, 5),
-   //   tempUser,
-   // );
-   // return { type: NEW_MESSAGE, payload: { chatRoomId, msg } };
 };
