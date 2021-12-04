@@ -1,12 +1,15 @@
 import React from 'react';
+import defaultStyles from '../styles/General';
+// Components
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import TextField from '../components/TextField';
 import HrBar from '../components/HrBar';
+import Button from '../components/Button';
 import AppLogo from '../components/svgs/AppLogo';
-import defaultStyles from '../styles/General';
-
+// Redux
 import { useDispatch } from 'react-redux';
 import { signUp } from '../store/actions/UserActions';
+// Navigation
 import { Link } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
 
@@ -64,11 +67,16 @@ export default function SignUpScreen() {
                onValid={valid => setPasswordValid(valid)}
                setContent={content => onChangeConfirmPass(content)}></TextField>
          </View>
-         <Pressable
-            style={[defaultStyles.btnPrimary, defaultStyles.lightShadow]}
-            onPress={handleSignUp}>
-            <Text style={defaultStyles.btnPrimaryContent}>Get access</Text>
-         </Pressable>
+         <Button
+            title="Get access"
+            onPress={handleSignUp}
+            buttonStyle={{
+               justifyContent: 'flex-start',
+               width: 340,
+               padding: 18,
+               ...styles.shadow,
+            }}
+         />
          <View style={styles.signUpLinkWrapper}>
             <Text>Already have an account? </Text>
             <Link style={defaultStyles.btnLink} to={{ screen: 'LogInScreen' }}>

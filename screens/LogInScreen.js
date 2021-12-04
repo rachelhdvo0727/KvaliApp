@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
+import Button from '../components/Button';
 import { Link } from '@react-navigation/native';
 import defaultStyles from '../styles/General';
 import * as SecureStore from 'expo-secure-store';
@@ -67,11 +68,16 @@ export default function LogInScreen(props) {
          <Text style={[defaultStyles.btnLink, styles.forgotPass]}>
             Forgot password?
          </Text>
-         <Pressable
-            style={[defaultStyles.btnPrimary, defaultStyles.lightShadow]}
-            onPress={handleLogIn}>
-            <Text style={defaultStyles.btnPrimaryContent}>Log in</Text>
-         </Pressable>
+         <Button
+            title="Login"
+            onPress={handleLogIn}
+            buttonStyle={{
+               justifyContent: 'flex-start',
+               width: 340,
+               padding: 18,
+               ...styles.shadow,
+            }}
+         />
          <View style={styles.signUpLinkWrapper}>
             <Text>Don't have an account? </Text>
             <Link style={defaultStyles.btnLink} to={{ screen: 'SignUpScreen' }}>
