@@ -33,53 +33,55 @@ export default function CardOverlay({
    onPress,
 }: Props) {
    return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
-         <ImageBackground
-            source={imageSource}
-            resizeMode="cover"
-            style={styles.image}>
-            <LinearGradient
-               colors={['#00000000', '#00000083', '#000000E6']}
-               style={styles.background}
-            />
-            <View style={styles.contentWrapper}>
-               <View style={[styles.titleWrapper]}>
-                  <Text style={[styles.title, defaultStyles.whiteText]}>
-                     {title}
-                  </Text>
-                  <Text
-                     style={[
-                        defaultStyles.whiteText,
-                        defaultStyles.normalText,
-                        styles.groupName,
-                     ]}>
-                     {groupName}
-                  </Text>
-               </View>
+      <TouchableOpacity onPress={onPress}>
+         <View style={styles.container}>
+            <ImageBackground
+               source={imageSource}
+               resizeMode="cover"
+               style={styles.image}>
+               <LinearGradient
+                  colors={['#00000000', '#00000083', '#000000E6']}
+                  style={styles.background}
+               />
+               <View style={styles.contentWrapper}>
+                  <View style={[styles.titleWrapper]}>
+                     <Text style={[styles.title, defaultStyles.whiteText]}>
+                        {title}
+                     </Text>
+                     <Text
+                        style={[
+                           defaultStyles.whiteText,
+                           defaultStyles.normalText,
+                           styles.groupName,
+                        ]}>
+                        {groupName}
+                     </Text>
+                  </View>
 
-               <View style={[styles.iconTextWrapper]}>
-                  <View style={styles.icons}>{iconDateTime}</View>
-                  <Text
-                     style={[
-                        defaultStyles.normalText,
-                        defaultStyles.whiteText,
-                        styles.datetimeText,
-                     ]}>
-                     {start} - {end}
-                  </Text>
+                  <View style={[styles.iconTextWrapper]}>
+                     <View style={styles.icons}>{iconDateTime}</View>
+                     <Text
+                        style={[
+                           defaultStyles.normalText,
+                           defaultStyles.whiteText,
+                           styles.datetimeText,
+                        ]}>
+                        {start} - {end}
+                     </Text>
+                  </View>
+                  {/* TODO: truncate address */}
+                  <View style={[styles.iconTextWrapper]}>
+                     <View style={styles.icons}>{iconAddress}</View>
+                     <Text
+                        style={[defaultStyles.whiteText, styles.addressText]}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {address}
+                     </Text>
+                  </View>
                </View>
-               {/* TODO: truncate address */}
-               <View style={[styles.iconTextWrapper]}>
-                  <View style={styles.icons}>{iconAddress}</View>
-                  <Text
-                     style={[defaultStyles.whiteText, styles.addressText]}
-                     numberOfLines={1}
-                     ellipsizeMode="tail">
-                     {address}
-                  </Text>
-               </View>
-            </View>
-         </ImageBackground>
+            </ImageBackground>
+         </View>
       </TouchableOpacity>
    );
 }
@@ -90,6 +92,7 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
       height: 175,
       width: 337,
+      borderRadius: 5,
       paddingBottom: 5,
       marginVertical: 13,
       marginHorizontal: 20,
@@ -126,6 +129,7 @@ const styles = StyleSheet.create({
       marginRight: 5,
    },
    image: {
+      borderRadius: 5,
       flex: 1,
       justifyContent: 'center',
       height: '100%',
