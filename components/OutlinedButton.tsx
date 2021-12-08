@@ -27,21 +27,21 @@ export default function OutlinedButton({
 const styles = StyleSheet.create({
    buttonStyle: {
       backgroundColor: '#fff',
-      margin: 10,
+      marginVertical: 5,
       paddingVertical: 10,
       paddingHorizontal: 20,
       borderRadius: 5,
       borderColor: '#5050A5',
       borderWidth: 1,
+
       flexDirection: 'row',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'center',
    },
    labelStyle: {
       color: '#5050A5',
       fontFamily: 'OpenSans-Bold',
       fontSize: 16,
-      // textTransform: 'capitalize',
    },
    iconStyle: {
       marginRight: 8,

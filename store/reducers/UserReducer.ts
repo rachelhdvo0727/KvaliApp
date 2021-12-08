@@ -5,7 +5,6 @@ import {
    REFRESH_TOKEN,
 } from '../actions/UserActions';
 import User from '../../models/User';
-import { tassign } from 'tassign';
 
 interface UserState {
    loggedInUser: User | undefined;

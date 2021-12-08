@@ -8,7 +8,6 @@ export const DELETE_CHATROOM = 'DELETE_CHATROOM';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 export const MESSAGES = 'MESSAGES';
 
-
 export const fetchChatRooms = () => {
    return async (dispatch, getState) => {
       // redux thunk

@@ -5,8 +5,8 @@ import { fetchEvents } from '../store/actions/EventActions';
 
 import { useNavigation } from '@react-navigation/core';
 
-import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
-import { FontAwesome, Entypo, Ionicons } from '@expo/vector-icons';
+import { StyleSheet, View, FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import CardGradient from '../components/CardGradient';
 
 export default function EventsScreen() {
@@ -15,8 +15,8 @@ export default function EventsScreen() {
    React.useEffect(() => {
       dispatch(fetchEvents());
    });
-
    const events = useSelector(state => state?.event?.events);
+
    const dateTimeOptions = {
       weekday: 'short',
       month: 'long',
@@ -76,6 +76,7 @@ export default function EventsScreen() {
                      }
                      onPress={() =>
                         navigation.navigate('EventDetailsScreen', {
+                           eventId: item?.id,
                            eventTitle: item?.eventTitle,
                         })
                      }

@@ -1,5 +1,5 @@
 import User from '../../models/User';
-import { saveData, objToString, deleteSavedData } from '../../utils/functions';
+import { saveData, objToString } from '../../utils/functions';
 import * as SecureStore from 'expo-secure-store';
 
 export const SIGN_UP = 'SIGN_UP';

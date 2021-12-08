@@ -1,12 +1,13 @@
-import { Thasadith_400Regular } from '@expo-google-fonts/dev';
-import { EVENTS } from '../actions/EventActions';
+import { EVENTS, EVENT } from '../actions/EventActions';
 
 interface EventState {
    events: Array<any>;
+   event: Object;
 }
 
 const initialState: EventState = {
    events: [],
+   event: {},
 };
 
 const EventReducer = (state: EventState = initialState, action: any) => {

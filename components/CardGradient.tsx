@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import defaultStyles from '../styles/General';
 import { LinearGradient } from 'expo-linear-gradient';
+import IconTextContainer from '../components/IconTextContainer';
 
 interface Props {
    title: string;
@@ -57,28 +58,18 @@ export default function CardOverlay({
                         {groupName}
                      </Text>
                   </View>
-
-                  <View style={[styles.iconTextWrapper]}>
-                     <View style={styles.icons}>{iconDateTime}</View>
-                     <Text
-                        style={[
-                           defaultStyles.normalText,
-                           defaultStyles.whiteText,
-                           styles.datetimeText,
-                        ]}>
-                        {start} - {end}
-                     </Text>
-                  </View>
-                  {/* TODO: truncate address */}
-                  <View style={[styles.iconTextWrapper]}>
-                     <View style={styles.icons}>{iconAddress}</View>
-                     <Text
-                        style={[defaultStyles.whiteText, styles.addressText]}
-                        numberOfLines={1}
-                        ellipsizeMode="tail">
-                        {address}
-                     </Text>
-                  </View>
+                  <IconTextContainer
+                     icon={iconDateTime}
+                     text={`${start} - ${end}`}
+                     textStyle={[defaultStyles.whiteText, styles.datetimeText]}
+                  />
+                  <IconTextContainer
+                     icon={iconAddress}
+                     text={address}
+                     numberOfLines={1}
+                     ellipsizeMode="tail"
+                     textStyle={[defaultStyles.whiteText, styles.addressText]}
+                  />
                </View>
             </ImageBackground>
          </View>
@@ -102,12 +93,6 @@ const styles = StyleSheet.create({
       paddingTop: 64,
       zIndex: 999,
    },
-   iconTextWrapper: {
-      paddingBottom: 3,
-      flexDirection: 'row',
-      alignItems: 'center',
-      // maxWidth: 280,
-   },
    titleWrapper: {
       paddingBottom: 3,
       flexDirection: 'column',
@@ -124,9 +109,6 @@ const styles = StyleSheet.create({
    addressText: {
       ...defaultStyles.normalText,
       flex: 1,
-   },
-   icons: {
-      marginRight: 5,
    },
    image: {
       borderRadius: 5,
