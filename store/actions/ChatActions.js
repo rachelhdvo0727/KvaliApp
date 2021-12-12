@@ -88,7 +88,7 @@ export const newMessage = (chatRoomId, message) => {
    return async (dispatch, getState) => {
       const token = getState().user.token; // accessing token in the state.
       const response = await fetch(
-         `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/chatrooms/${chatRoomId}messages.json?auth=${token}`,
+         `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/chatrooms/${chatRoomId}/messages.json?auth=${token}`,
          {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -1,4 +1,5 @@
 import React from 'react';
+import Participant from '../models/Participant';
 import {
    StyleSheet,
    View,
@@ -7,13 +8,16 @@ import {
    SafeAreaView,
    Image,
    ImageBackground,
-   Dimensions,
-   Animated,
-   TouchableOpacity,
 } from 'react-native';
 import defaultStyles from '../styles/General';
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+   addAttendance,
+   deleteUserAttendance,
+   editAttendanceStatus,
+} from '../store/actions/EventActions';
+
 // Components
 import { AntDesign, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import OutlinedButton from '../components/OutlinedButton';
@@ -30,10 +34,22 @@ import { Ionicons } from '@expo/vector-icons';
 import { Table, Row, Rows } from 'react-native-table-component';
 
 const EventDetailsScreen = props => {
+   const dispatch = useDispatch();
+
+   const currentUser = useSelector(state => state?.user?.loggedInUser);
    let eventId = props.route.params.eventId;
    const eventDetails = useSelector(state => state?.event?.events).find(
       event => event?.id === eventId,
    );
+
+   // Change attendances to array
+   const attendances = eventDetails?.attendances
+      ? Object.values(eventDetails?.attendances)
+      : [];
+   // Find current user's status on the event
+   const statusOfMatchedUser = attendances?.map(u => {
+      if (u.userId === currentUser?.id) return u.status;
+   });
 
    const imageLinks =
       (eventDetails?.imageName === 'social-res-event' &&
@@ -51,22 +67,26 @@ const EventDetailsScreen = props => {
       (eventDetails?.imageName === 'cbs-film-oldboy' &&
          require('../assets/discover-events-imgs/cbs-film-oldboy.png'));
 
-   const [isInterested, setIsInterested] = React.useState(false);
-   const [isGoing, setIsGoing] = React.useState(false);
-
    const sheetRef = React.useRef(null);
-
    const [isPanelActive, setIsPanelActive] = React.useState(false);
-
-   const [value, setValue] = React.useState('');
    const openPanel = () => {
       setIsPanelActive(!isPanelActive);
-      if (isInterested) setValue('interested');
-      if (isGoing) setValue('going');
-      if (!isGoing && !isInterested) setValue('notGoing');
    };
-   let window = Dimensions.get('window');
-   const [opacity, setOpacity] = React.useState(new Animated.Value(0));
+   const [userStatus, setUserStatus] = React.useState(statusOfMatchedUser[0]);
+   const changeCurrentStatus = userStatus => {
+      setUserStatus(userStatus);
+      // console.log('change current status', userStatus);
+
+      let participantObject = Object.keys(eventDetails?.attendances)[0];
+      if (userStatus !== 'notGoing') {
+         // Change status
+         dispatch(editAttendanceStatus(eventId, participantObject, userStatus));
+      } else {
+         // Erase user's attendance
+         dispatch(deleteUserAttendance(eventId, participantObject));
+      }
+   };
+   // Inside Bottomsheet
    const renderContent = () => (
       <View
          style={{
@@ -76,8 +96,8 @@ const EventDetailsScreen = props => {
             zIndex: 9999,
          }}>
          <RadioButton.Group
-            onValueChange={value => setValue(value)}
-            value={value}>
+            onValueChange={userStatus => changeCurrentStatus(userStatus)}
+            value={userStatus}>
             <RadioButton.Item label="Interested" value="interested" />
             <RadioButton.Item label="Going" value="going" />
             <RadioButton.Item label="Not Going" value="notGoing" />
@@ -85,11 +105,6 @@ const EventDetailsScreen = props => {
          <RadioButton value="Not going" />
       </View>
    );
-
-   const buttonTitle =
-      isInterested || value === 'interested'
-         ? 'Interested'
-         : (isGoing || value === 'going') && 'Going';
 
    const [truncateText, setTruncateText] = React.useState(false);
    const toggleShowText = () => {
@@ -111,7 +126,6 @@ const EventDetailsScreen = props => {
                   snapPoints={[300, 0]}
                   borderRadius={10}
                   renderContent={renderContent}
-                  callbackNode={fall}
                />
             </>
          )}
@@ -179,39 +193,20 @@ const EventDetailsScreen = props => {
                }
                childrenAfter={
                   <>
-                     {isGoing || isInterested ? (
-                        <Button
-                           title={buttonTitle}
-                           onPress={openPanel}
-                           icon={
-                              isGoing ? (
-                                 <FontAwesome5
-                                    name="calendar-check"
-                                    size={16}
-                                    color="#fff"
-                                 />
-                              ) : (
-                                 <AntDesign
-                                    name="star"
-                                    size={16}
-                                    color="#fff"
-                                 />
-                              )
-                           }
-                           buttonStyle={styles.clsInterested}
-                           secondaryIcon={
-                              <MaterialIcons
-                                 name="keyboard-arrow-down"
-                                 size={20}
-                                 color="#fff"
-                              />
-                           }
-                        />
-                     ) : (
+                     {attendances.length === 0 && (
                         <View style={styles.btnContainer}>
                            <OutlinedButton
                               title="Interested"
-                              onPress={() => setIsInterested(true)}
+                              onPress={() => {
+                                 setUserStatus('interested');
+                                 dispatch(
+                                    addAttendance(
+                                       eventId,
+                                       currentUser?.id,
+                                       'interested',
+                                    ),
+                                 );
+                              }}
                               icon={
                                  <AntDesign
                                     name="staro"
@@ -223,7 +218,16 @@ const EventDetailsScreen = props => {
                            />
                            <OutlinedButton
                               title="Going"
-                              onPress={() => setIsGoing(true)}
+                              onPress={() => {
+                                 setUserStatus('going');
+                                 dispatch(
+                                    addAttendance(
+                                       eventId,
+                                       currentUser?.id,
+                                       'going',
+                                    ),
+                                 );
+                              }}
                               icon={
                                  <FontAwesome5
                                     name="calendar-check"
@@ -235,6 +239,45 @@ const EventDetailsScreen = props => {
                            />
                         </View>
                      )}
+                     {(userStatus === 'interested' || userStatus === 'going') &&
+                        (attendances.length !== 0 ||
+                           statusOfMatchedUser[0] !== 'notGoing') && (
+                           <Button
+                              title={
+                                 userStatus.charAt(0).toUpperCase() +
+                                    userStatus.slice(1) ||
+                                 statusOfMatchedUser[0]
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    statusOfMatchedUser[0].slice(1)
+                              }
+                              onPress={openPanel}
+                              icon={
+                                 userStatus === 'going' ? (
+                                    <FontAwesome5
+                                       name="calendar-check"
+                                       size={16}
+                                       color="#fff"
+                                    />
+                                 ) : (
+                                    <AntDesign
+                                       name="star"
+                                       size={16}
+                                       color="#fff"
+                                    />
+                                 )
+                              }
+                              buttonStyle={styles.clsInterested}
+                              secondaryIcon={
+                                 <MaterialIcons
+                                    name="keyboard-arrow-down"
+                                    size={20}
+                                    color="#fff"
+                                 />
+                              }
+                           />
+                        )}
+
                      <View
                         style={{
                            flexDirection: 'row',
@@ -251,7 +294,7 @@ const EventDetailsScreen = props => {
                               color="#333333"
                               style={{ marginRight: 5 }}
                            />
-                           <Text style={styles.statusText}>145 Interested</Text>
+                           <Text style={styles.statusText}>Interested</Text>
                         </View>
                         <Ionicons
                            name="ios-ellipse"

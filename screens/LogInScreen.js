@@ -40,7 +40,7 @@ export default function LogInScreen(props) {
             user = JSON.parse(await SecureStore.getItemAsync('user'));
          } catch (e) {
             // Restoring token failed
-            console.log('restore token failed');
+            console.log('restore token failed', e);
          }
 
          dispatch(restoreUser(user, userToken));

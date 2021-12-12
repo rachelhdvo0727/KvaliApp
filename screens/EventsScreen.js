@@ -14,7 +14,7 @@ export default function EventsScreen() {
    const dispatch = useDispatch();
    React.useEffect(() => {
       dispatch(fetchEvents());
-   });
+   }, []);
    const events = useSelector(state => state?.event?.events);
 
    const dateTimeOptions = {

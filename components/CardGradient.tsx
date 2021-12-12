@@ -9,6 +9,7 @@ import {
 import defaultStyles from '../styles/General';
 import { LinearGradient } from 'expo-linear-gradient';
 import IconTextContainer from '../components/IconTextContainer';
+import EventStatusTag from './svgs/EventStatusTag';
 
 interface Props {
    title: string;

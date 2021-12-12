@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
 import Svg, { Path, Defs, Style } from 'react-native-svg';
 
 function ChatIcon(props) {
@@ -18,13 +17,5 @@ function ChatIcon(props) {
       </Svg>
    );
 }
-
-const styles = StyleSheet.create({
-   general: {
-      alignSelf: 'center',
-      marginVertical: 30,
-      marginRight: 15,
-   },
-});
 
 export default ChatIcon;
