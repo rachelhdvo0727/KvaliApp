@@ -1,5 +1,10 @@
 class Participant {
-   constructor(public userId: string, public status: string) {
+   constructor(
+      public attendanceId: string,
+      public userId: string,
+      public status: string,
+   ) {
+      this.attendanceId = attendanceId;
       this.userId = userId;
       this.status = status;
    }

@@ -16,6 +16,7 @@ export default function EventsScreen() {
       dispatch(fetchEvents());
    }, []);
    const events = useSelector(state => state?.event?.events);
+   const [userStatus, setUserStatus] = React.useState('');
 
    const dateTimeOptions = {
       weekday: 'short',
@@ -28,7 +29,7 @@ export default function EventsScreen() {
       hour: 'numeric',
       minute: 'numeric',
    };
-
+   console.log(userStatus);
    return (
       <View style={styles.container}>
          <View style={{ flex: 1 }}>
@@ -78,6 +79,7 @@ export default function EventsScreen() {
                         navigation.navigate('EventDetailsScreen', {
                            eventId: item?.id,
                            eventTitle: item?.eventTitle,
+                           userStatus: userStatus,
                         })
                      }
                   />

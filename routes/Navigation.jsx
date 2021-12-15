@@ -18,7 +18,6 @@ const Stack = createNativeStackNavigator();
 
 const getHeaderTitle = route => {
    const routeName = getFocusedRouteNameFromRoute(route);
-   console.log(routeName);
    switch (routeName) {
       case 'HomeTab' && 'HomeScreen':
          return 'FEED';
@@ -46,8 +45,7 @@ const getHeaderTitle = route => {
 
 export default function Navigation() {
    const loggedInUser = useSelector(state => state?.user?.loggedInUser);
-   console.log(loggedInUser);
-
+   // console.log(loggedInUser);
    return (
       <NavigationContainer>
          {loggedInUser !== undefined ? (

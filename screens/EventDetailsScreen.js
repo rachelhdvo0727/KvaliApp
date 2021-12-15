@@ -35,55 +35,59 @@ import { Table, Row, Rows } from 'react-native-table-component';
 
 const EventDetailsScreen = props => {
    const dispatch = useDispatch();
+   let eventId = props.route.params.eventId;
 
    const currentUser = useSelector(state => state?.user?.loggedInUser);
-   let eventId = props.route.params.eventId;
    const eventDetails = useSelector(state => state?.event?.events).find(
       event => event?.id === eventId,
    );
+   const attendances = useSelector(state => state?.event?.events).find(
+      event => event?.id === eventId,
+   ).attendances;
 
-   // Change attendances to array
-   const attendances = eventDetails?.attendances
-      ? Object.values(eventDetails?.attendances)
-      : [];
-   // Find current user's status on the event
-   const statusOfMatchedUser = attendances?.map(u => {
-      if (u.userId === currentUser?.id) return u.status;
+   const usersEventStatus = attendances.find(
+      stt => stt.userId === currentUser?.id,
+   );
+
+   const [userStatus, setUserStatus] = React.useState('');
+   React.useState(() => {
+      if (usersEventStatus) {
+         setUserStatus(usersEventStatus?.status);
+      }
+      console.log(props.route.params.userStatus);
    });
+   const handleInterested = () => {
+      props.route.params.userStatus = 'interested';
+      dispatch(addAttendance(eventId, currentUser?.id, 'interested'));
+   };
+   const handleGoing = () => {
+      props.route.params.userStatus = 'going';
+      dispatch(addAttendance(eventId, currentUser?.id, 'going'));
+   };
 
-   const imageLinks =
-      (eventDetails?.imageName === 'social-res-event' &&
-         require('../assets/discover-events-imgs/social-res-event.png')) ||
-      (eventDetails?.imageName === 'cbs-film-ghost' &&
-         require('../assets/discover-events-imgs/cbs-film-ghost.png')) ||
-      (eventDetails?.imageName === 'dansic-bootcamp' &&
-         require('../assets/discover-events-imgs/dansic-bootcamp.png')) ||
-      (eventDetails?.imageName === 'cbs-art-event' &&
-         require('../assets/discover-events-imgs/cbs-art-event.png')) ||
-      (eventDetails?.imageName === 'cbs-yoga-event' &&
-         require('../assets/discover-events-imgs/cbs-yoga-event.png')) ||
-      (eventDetails?.imageName === 'cbs-surf' &&
-         require('../assets/discover-events-imgs/cbs-surf.png')) ||
-      (eventDetails?.imageName === 'cbs-film-oldboy' &&
-         require('../assets/discover-events-imgs/cbs-film-oldboy.png'));
-
+   // BottomSheet
    const sheetRef = React.useRef(null);
    const [isPanelActive, setIsPanelActive] = React.useState(false);
    const openPanel = () => {
       setIsPanelActive(!isPanelActive);
    };
-   const [userStatus, setUserStatus] = React.useState(statusOfMatchedUser[0]);
    const changeCurrentStatus = userStatus => {
-      setUserStatus(userStatus);
-      // console.log('change current status', userStatus);
-
-      let participantObject = Object.keys(eventDetails?.attendances)[0];
       if (userStatus !== 'notGoing') {
          // Change status
-         dispatch(editAttendanceStatus(eventId, participantObject, userStatus));
+         setUserStatus(userStatus);
+         dispatch(
+            editAttendanceStatus(
+               eventId,
+               usersEventStatus?.attendanceId,
+               userStatus,
+            ),
+         );
       } else {
          // Erase user's attendance
-         dispatch(deleteUserAttendance(eventId, participantObject));
+         setUserStatus('');
+         dispatch(
+            deleteUserAttendance(eventId, usersEventStatus?.attendanceId),
+         );
       }
    };
    // Inside Bottomsheet
@@ -116,6 +120,22 @@ const EventDetailsScreen = props => {
       hour: 'numeric',
       minute: 'numeric',
    };
+
+   const imageLinks =
+      (eventDetails?.imageName === 'social-res-event' &&
+         require('../assets/discover-events-imgs/social-res-event.png')) ||
+      (eventDetails?.imageName === 'cbs-film-ghost' &&
+         require('../assets/discover-events-imgs/cbs-film-ghost.png')) ||
+      (eventDetails?.imageName === 'dansic-bootcamp' &&
+         require('../assets/discover-events-imgs/dansic-bootcamp.png')) ||
+      (eventDetails?.imageName === 'cbs-art-event' &&
+         require('../assets/discover-events-imgs/cbs-art-event.png')) ||
+      (eventDetails?.imageName === 'cbs-yoga-event' &&
+         require('../assets/discover-events-imgs/cbs-yoga-event.png')) ||
+      (eventDetails?.imageName === 'cbs-surf' &&
+         require('../assets/discover-events-imgs/cbs-surf.png')) ||
+      (eventDetails?.imageName === 'cbs-film-oldboy' &&
+         require('../assets/discover-events-imgs/cbs-film-oldboy.png'));
 
    return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -193,19 +213,13 @@ const EventDetailsScreen = props => {
                }
                childrenAfter={
                   <>
-                     {attendances.length === 0 && (
+                     {(userStatus === '' || userStatus === 'notGoing') && (
                         <View style={styles.btnContainer}>
                            <OutlinedButton
                               title="Interested"
                               onPress={() => {
                                  setUserStatus('interested');
-                                 dispatch(
-                                    addAttendance(
-                                       eventId,
-                                       currentUser?.id,
-                                       'interested',
-                                    ),
-                                 );
+                                 handleInterested();
                               }}
                               icon={
                                  <AntDesign
@@ -220,13 +234,7 @@ const EventDetailsScreen = props => {
                               title="Going"
                               onPress={() => {
                                  setUserStatus('going');
-                                 dispatch(
-                                    addAttendance(
-                                       eventId,
-                                       currentUser?.id,
-                                       'going',
-                                    ),
-                                 );
+                                 handleGoing();
                               }}
                               icon={
                                  <FontAwesome5
@@ -239,44 +247,41 @@ const EventDetailsScreen = props => {
                            />
                         </View>
                      )}
-                     {(userStatus === 'interested' || userStatus === 'going') &&
-                        (attendances.length !== 0 ||
-                           statusOfMatchedUser[0] !== 'notGoing') && (
-                           <Button
-                              title={
-                                 userStatus.charAt(0).toUpperCase() +
-                                    userStatus.slice(1) ||
-                                 statusOfMatchedUser[0]
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    statusOfMatchedUser[0].slice(1)
-                              }
-                              onPress={openPanel}
-                              icon={
-                                 userStatus === 'going' ? (
-                                    <FontAwesome5
-                                       name="calendar-check"
-                                       size={16}
-                                       color="#fff"
-                                    />
-                                 ) : (
-                                    <AntDesign
-                                       name="star"
-                                       size={16}
-                                       color="#fff"
-                                    />
-                                 )
-                              }
-                              buttonStyle={styles.clsInterested}
-                              secondaryIcon={
-                                 <MaterialIcons
-                                    name="keyboard-arrow-down"
-                                    size={20}
+                     {(userStatus === 'interested' ||
+                        userStatus === 'going') && (
+                        <Button
+                           title={
+                              usersEventStatus?.status.charAt(0).toUpperCase() +
+                                 usersEventStatus?.status.slice(1) ||
+                              userStatus.charAt(0).toUpperCase() +
+                                 userStatus.slice(1)
+                           }
+                           onPress={openPanel}
+                           icon={
+                              userStatus === 'going' ? (
+                                 <FontAwesome5
+                                    name="calendar-check"
+                                    size={16}
                                     color="#fff"
                                  />
-                              }
-                           />
-                        )}
+                              ) : (
+                                 <AntDesign
+                                    name="star"
+                                    size={16}
+                                    color="#fff"
+                                 />
+                              )
+                           }
+                           buttonStyle={styles.clsInterested}
+                           secondaryIcon={
+                              <MaterialIcons
+                                 name="keyboard-arrow-down"
+                                 size={20}
+                                 color="#fff"
+                              />
+                           }
+                        />
+                     )}
 
                      <View
                         style={{

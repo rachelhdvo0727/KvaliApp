@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
+// Navigation
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-
+// Components
 import DiscoverScreen from './DiscoverScreen';
 import EventsScreen from './EventsScreen';
 import EventDetailsScreen from './EventDetailsScreen';
@@ -48,4 +47,5 @@ const DiscoverStack = () => {
 
 export default DiscoverStack;
 
-const styles = StyleSheet.create({});
+
+

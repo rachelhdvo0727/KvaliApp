@@ -115,7 +115,6 @@ export const refreshToken = (refreshToken: any) => {
          },
       );
       const data = await response.json(); // json to javascript
-      console.log(data);
       !response.ok
          ? console.log('refreshToken err', data)
          : dispatch({ type: REFRESH_TOKEN, payload: data.id_token });

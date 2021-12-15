@@ -4,16 +4,17 @@ import {
    CHANGE_ATTENDANCE_STATUS,
    DELETE_ATTENDANCE,
 } from '../actions/EventActions';
+import Participant from '../../models/Participant';
 
 interface EventState {
    events: Array<any>;
-   attendance: Object;
-   status: Object;
+   attendances: Array<any>;
+   status: Object | any;
 }
 
 const initialState: EventState = {
    events: [],
-   attendance: {},
+   attendances: [],
    status: {},
 };
 
@@ -23,8 +24,22 @@ const EventReducer = (state: EventState = initialState, action: any) => {
          return { ...state, events: action.payload };
 
       case ADD_ATTENDANCE:
-         console.log(action.payload);
-         return { ...state, attendance: action.payload };
+         const event = state.events.find(
+            event => event.id === action.payload.eventId,
+         );
+         const attendances = [...event.attendances, action.payload.attendance];
+         const copiedEvent = { ...event };
+         copiedEvent.attendances = attendances;
+         const index = state.events.findIndex(
+            event => event.id === action.payload.eventId,
+         );
+         const attendanceArray = [...state.events].splice(
+            index,
+            1,
+            copiedEvent,
+         );
+
+         return { ...state, attendances: attendanceArray };
 
       case CHANGE_ATTENDANCE_STATUS:
          return { ...state, status: action.payload };

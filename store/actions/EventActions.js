@@ -1,4 +1,5 @@
 import Participant from '../../models/Participant';
+import Event from '../../models/Event';
 export const EVENTS = 'EVENTS';
 export const ADD_ATTENDANCE = 'ADD_ATTENDANCE';
 export const CHANGE_ATTENDANCE_STATUS = 'CHANGE_ATTENDANCE_STATUS';
@@ -19,20 +20,37 @@ export const fetchEvents = () => {
       const data = await response.json();
       !response.ok && console.error(data);
       if (response.ok) {
-         let array = [];
+         let events = [];
          for (const key in data) {
+            let attendances = [];
+            for (const key2 in data[key].attendances) {
+               let attendance = data[key].attendances[key2];
+               attendances.push(
+                  new Participant(key2, attendance.userId, attendance.status),
+               );
+            }
             let event = data[key];
             event.id = key;
-            array.push(event);
+            events.push(
+               new Event(
+                  key,
+                  data[key].eventTitle,
+                  data[key].eventDesc,
+                  data[key].imageName,
+                  data[key].address,
+                  data[key].venue,
+                  data[key].group,
+                  data[key].attendances ? attendances : [],
+                  data[key].dateTime,
+               ),
+            );
          }
-         // console.log(array);
-         dispatch({ type: EVENTS, payload: array });
+         dispatch({ type: EVENTS, payload: events });
       }
    };
 };
 
 export const addAttendance = (eventId, userId, status) => {
-   const participant = new Participant(userId, status);
    return async (dispatch, getState) => {
       const token = getState().user.token;
       const response = await fetch(
@@ -42,12 +60,13 @@ export const addAttendance = (eventId, userId, status) => {
             headers: {
                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ...participant }),
+            body: JSON.stringify({ userId: userId, status: status }),
          },
       );
       const data = await response.json();
       !response.ok && console.error(data);
       if (response.ok) {
+         const participant = new Participant(data.name, userId, status);
          dispatch({
             type: ADD_ATTENDANCE,
             payload: { eventId, attendance: participant },

@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 // Screens
 import HomeScreen from './HomeScreen';
 import DiscoverStack from './DiscoverStack';
@@ -10,12 +9,11 @@ import MenuScreen from './MenuScreen';
 
 import { FontAwesome, Entypo, Ionicons } from '@expo/vector-icons';
 
-import { newChatRoom } from '../store/actions/ChatActions';
+// import { newChatRoom } from '../store/actions/ChatActions';
 
 const Tab = createBottomTabNavigator();
 
 export default function HomeTab() {
-
    return (
       <Tab.Navigator
          screenOptions={{
@@ -111,16 +109,3 @@ const styles = StyleSheet.create({
       marginRight: 20,
    },
 });
-
-{
-   /* <Tab.Screen
-				name='SignUpScreen'
-				component={SignUpScreen}
-				options={{
-					title: "Sign Up",
-					tabBarStyle: {
-						fontWeight: 700
-					}
-				}}
-			/> */
-}

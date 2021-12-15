@@ -32,7 +32,6 @@ const loadFonts = () => {
 export default function App() {
    const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
    const [fontLoaded, setFontLoaded] = React.useState(false);
-
    return (
       <Provider store={store}>
          {!fontLoaded ? (
@@ -47,5 +46,3 @@ export default function App() {
       </Provider>
    );
 }
-
-const styles = StyleSheet.create({});
