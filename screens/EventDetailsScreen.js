@@ -36,33 +36,32 @@ import { Table, Row, Rows } from 'react-native-table-component';
 const EventDetailsScreen = props => {
    const dispatch = useDispatch();
    let eventId = props.route.params.eventId;
+   // let eventAttendances = props?.route?.params?.eventAttendances;
 
    const currentUser = useSelector(state => state?.user?.loggedInUser);
    const eventDetails = useSelector(state => state?.event?.events).find(
       event => event?.id === eventId,
    );
-   const attendances = useSelector(state => state?.event?.events).find(
-      event => event?.id === eventId,
-   ).attendances;
-
+   const attendances = eventDetails.attendances;
+   // const attendance = useSelector(state => state?.event);
+   // Find current user's status on this event
    const usersEventStatus = attendances.find(
       stt => stt.userId === currentUser?.id,
    );
+   const buttonStatus = React.useRef(null);
 
    const [userStatus, setUserStatus] = React.useState('');
    React.useState(() => {
       if (usersEventStatus) {
          setUserStatus(usersEventStatus?.status);
       }
-      console.log(props.route.params.userStatus);
-   });
-   const handleInterested = () => {
-      props.route.params.userStatus = 'interested';
-      dispatch(addAttendance(eventId, currentUser?.id, 'interested'));
-   };
-   const handleGoing = () => {
-      props.route.params.userStatus = 'going';
-      dispatch(addAttendance(eventId, currentUser?.id, 'going'));
+   }, []);
+
+   // console.log(attendance);
+
+   const handleChangeStatus = status => {
+      setUserStatus(status);
+      dispatch(addAttendance(eventId, currentUser?.id, status));
    };
 
    // BottomSheet
@@ -213,48 +212,11 @@ const EventDetailsScreen = props => {
                }
                childrenAfter={
                   <>
-                     {(userStatus === '' || userStatus === 'notGoing') && (
-                        <View style={styles.btnContainer}>
-                           <OutlinedButton
-                              title="Interested"
-                              onPress={() => {
-                                 setUserStatus('interested');
-                                 handleInterested();
-                              }}
-                              icon={
-                                 <AntDesign
-                                    name="staro"
-                                    size={17}
-                                    color="#5050A5"
-                                 />
-                              }
-                              buttonStyle={styles.btnWidth}
-                           />
-                           <OutlinedButton
-                              title="Going"
-                              onPress={() => {
-                                 setUserStatus('going');
-                                 handleGoing();
-                              }}
-                              icon={
-                                 <FontAwesome5
-                                    name="calendar-check"
-                                    size={17}
-                                    color="#5050A5"
-                                 />
-                              }
-                              buttonStyle={styles.btnWidth}
-                           />
-                        </View>
-                     )}
-                     {(userStatus === 'interested' ||
-                        userStatus === 'going') && (
+                     {usersEventStatus || userStatus ? (
                         <Button
                            title={
-                              usersEventStatus?.status.charAt(0).toUpperCase() +
-                                 usersEventStatus?.status.slice(1) ||
                               userStatus.charAt(0).toUpperCase() +
-                                 userStatus.slice(1)
+                              userStatus.slice(1)
                            }
                            onPress={openPanel}
                            icon={
@@ -281,8 +243,39 @@ const EventDetailsScreen = props => {
                               />
                            }
                         />
+                     ) : (
+                        <View style={styles.btnContainer}>
+                           <OutlinedButton
+                              title="Interested"
+                              onPress={() => {
+                                 handleChangeStatus('interested');
+                              }}
+                              buttonStatus={buttonStatus}
+                              icon={
+                                 <AntDesign
+                                    name="staro"
+                                    size={17}
+                                    color="#5050A5"
+                                 />
+                              }
+                              buttonStyle={styles.btnWidth}
+                           />
+                           <OutlinedButton
+                              title="Going"
+                              onPress={() => {
+                                 handleChangeStatus('going');
+                              }}
+                              icon={
+                                 <FontAwesome5
+                                    name="calendar-check"
+                                    size={17}
+                                    color="#5050A5"
+                                 />
+                              }
+                              buttonStyle={styles.btnWidth}
+                           />
+                        </View>
                      )}
-
                      <View
                         style={{
                            flexDirection: 'row',

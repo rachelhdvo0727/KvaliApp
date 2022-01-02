@@ -9,7 +9,8 @@ export const fetchEvents = () => {
    return async (dispatch, getState) => {
       const token = getState().user.token;
       const response = await fetch(
-         `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
+         'https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=' +
+            token,
          {
             method: 'GET',
             headers: {
@@ -53,6 +54,7 @@ export const fetchEvents = () => {
 export const addAttendance = (eventId, userId, status) => {
    return async (dispatch, getState) => {
       const token = getState().user.token;
+      const objectTosend = { userId: userId, status: status };
       const response = await fetch(
          `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/events/${eventId}/attendances.json?auth=${token}`,
          {
@@ -60,7 +62,7 @@ export const addAttendance = (eventId, userId, status) => {
             headers: {
                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userId: userId, status: status }),
+            body: JSON.stringify({ ...objectTosend }),
          },
       );
       const data = await response.json();
@@ -78,6 +80,7 @@ export const addAttendance = (eventId, userId, status) => {
 export const editAttendanceStatus = (eventId, participantObject, status) => {
    return async (dispatch, getState) => {
       const token = getState().user.token;
+      const objectTosend = { status: status };
       const response = await fetch(
          `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/events/${eventId}/attendances/${participantObject}.json?auth=${token}`,
          {
@@ -90,11 +93,14 @@ export const editAttendanceStatus = (eventId, participantObject, status) => {
       );
       const data = await response.json();
       !response.ok && console.error(data);
-      console.log('patch', data);
       if (response.ok) {
          dispatch({
             type: CHANGE_ATTENDANCE_STATUS,
-            payload: data,
+            payload: {
+               eventId,
+               participant: participantObject,
+               attendance: data,
+            },
          });
       }
    };

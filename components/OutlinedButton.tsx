@@ -1,5 +1,4 @@
 import React from 'react';
-import defaultStyles from '../styles/General';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 
 interface Props {
@@ -8,21 +7,27 @@ interface Props {
    buttonStyle?: any;
    icon: () => void;
    onPress(arg: any): void;
+   buttonStatus?: React.ForwardedRef<Text>;
 }
 
-export default function OutlinedButton({
+function OutlinedButton({
    title,
    onPress,
    icon,
    buttonStyle,
+   buttonStatus,
 }: Props) {
    return (
       <Pressable onPress={onPress} style={[styles.buttonStyle, buttonStyle]}>
          <View style={styles.iconStyle}>{icon}</View>
-         <Text style={styles.labelStyle}>{title}</Text>
+         <Text style={styles.labelStyle} ref={buttonStatus}>
+            {title}
+         </Text>
       </Pressable>
    );
 }
+
+export default OutlinedButton;
 
 const styles = StyleSheet.create({
    buttonStyle: {

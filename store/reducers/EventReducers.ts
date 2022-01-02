@@ -8,14 +8,12 @@ import Participant from '../../models/Participant';
 
 interface EventState {
    events: Array<any>;
-   attendances: Array<any>;
-   status: Object | any;
+   attendance: Object | any;
 }
 
 const initialState: EventState = {
    events: [],
-   attendances: [],
-   status: {},
+   attendance: {},
 };
 
 const EventReducer = (state: EventState = initialState, action: any) => {
@@ -24,25 +22,50 @@ const EventReducer = (state: EventState = initialState, action: any) => {
          return { ...state, events: action.payload };
 
       case ADD_ATTENDANCE:
+         // Find the current event object
          const event = state.events.find(
             event => event.id === action.payload.eventId,
          );
+         // Copy attendances to avoid mutation & add attendance from action
          const attendances = [...event.attendances, action.payload.attendance];
+         // Copy event object
          const copiedEvent = { ...event };
+         // Attach attendances array to event object
          copiedEvent.attendances = attendances;
+         // Find event's index
          const index = state.events.findIndex(
             event => event.id === action.payload.eventId,
          );
-         const attendanceArray = [...state.events].splice(
-            index,
-            1,
-            copiedEvent,
-         );
+         // Copy events array
+         const newEventsArray = [...state.events];
+         // Insert copiedEvent to the copied events array
+         newEventsArray.splice(index, 1, copiedEvent);
 
-         return { ...state, attendances: attendanceArray };
+         return { ...state, events: newEventsArray };
 
       case CHANGE_ATTENDANCE_STATUS:
-         return { ...state, status: action.payload };
+         // Find the current event object
+         const currentEvent = state.events.find(
+            event => event.id === action.payload.eventId,
+         );
+         // Copy event with attendances array
+         const eventCopied = { ...currentEvent };
+         // Find current participant
+         const currentAttendance = [...currentEvent.attendances].find(
+            p => p.attendanceId === action.payload.participant,
+         );
+         const attendanceIndex = [...currentEvent.attendances].findIndex(
+            p => p.attendanceId === action.payload.participant,
+         );
+         // Copy attendance
+         const attendanceCopied = { ...currentAttendance };
+         attendanceCopied.status = action.payload.attendance.status;
+         const copiedObject = eventCopied.attendances[attendanceIndex];
+         if (copiedObject.attendanceId === attendanceCopied.attendanceId) {
+            copiedObject.status = attendanceCopied.status;
+         }
+
+         return { ...state, attendance: attendanceCopied };
 
       case DELETE_ATTENDANCE:
          return { ...state };

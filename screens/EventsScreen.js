@@ -29,7 +29,7 @@ export default function EventsScreen() {
       hour: 'numeric',
       minute: 'numeric',
    };
-   console.log(userStatus);
+
    return (
       <View style={styles.container}>
          <View style={{ flex: 1 }}>
@@ -79,7 +79,7 @@ export default function EventsScreen() {
                         navigation.navigate('EventDetailsScreen', {
                            eventId: item?.id,
                            eventTitle: item?.eventTitle,
-                           userStatus: userStatus,
+                           eventAttendances: item?.attendances,
                         })
                      }
                   />

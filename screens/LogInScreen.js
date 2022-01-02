@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import Button from '../components/Button';
 import { Link } from '@react-navigation/native';
 import defaultStyles from '../styles/General';
-import * as SecureStore from 'expo-secure-store';
 
 import { useDispatch } from 'react-redux';
 import { logIn, restoreUser, refreshToken } from '../store/actions/UserActions';
+import * as SecureStore from 'expo-secure-store';
 
 export default function LogInScreen(props) {
    const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export default function LogInScreen(props) {
                );
                dispatch(refreshToken(refreshTokenString));
             }
-            console.log('no refresh token');
+            console.log('no refresh token needed');
 
             userToken = await SecureStore.getItemAsync('userToken');
             user = JSON.parse(await SecureStore.getItemAsync('user'));
@@ -42,11 +42,10 @@ export default function LogInScreen(props) {
             // Restoring token failed
             console.log('restore token failed', e);
          }
-
          dispatch(restoreUser(user, userToken));
       }
-      fetchTokenFromStorage();
-   });
+      // fetchTokenFromStorage();
+   }, []);
 
    return (
       <View style={[defaultStyles.pageCenter, defaultStyles.welcomeBackground]}>

@@ -8,7 +8,12 @@ import Button from '../components/Button';
 import AppLogo from '../components/svgs/AppLogo';
 // Redux
 import { useDispatch } from 'react-redux';
-import { signUp } from '../store/actions/UserActions';
+import {
+   signUp,
+   restoreUser,
+   refreshToken,
+} from '../store/actions/UserActions';
+import * as SecureStore from 'expo-secure-store';
 // Navigation
 import { Link } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
@@ -17,6 +22,7 @@ export default function SignUpScreen() {
    const dispatch = useDispatch();
    const navigation = useNavigation();
 
+  
    const [email, onChangeEmail] = React.useState('');
    const [emailValid, setEmailValid] = React.useState(false);
 
