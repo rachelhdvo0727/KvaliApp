@@ -80,7 +80,6 @@ export const addAttendance = (eventId, userId, status) => {
 export const editAttendanceStatus = (eventId, participantObject, status) => {
    return async (dispatch, getState) => {
       const token = getState().user.token;
-      const objectTosend = { status: status };
       const response = await fetch(
          `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/events/${eventId}/attendances/${participantObject}.json?auth=${token}`,
          {
@@ -120,11 +119,14 @@ export const deleteUserAttendance = (eventId, participantObject) => {
       );
       const data = await response.json();
       !response.ok && console.error(data);
-      console.log('delete', data);
       if (response.ok) {
          dispatch({
             type: DELETE_ATTENDANCE,
-            payload: data,
+            payload: {
+               eventId,
+               participant: participantObject,
+               attendance: data,
+            },
          });
       }
    };

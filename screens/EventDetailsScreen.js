@@ -43,12 +43,11 @@ const EventDetailsScreen = props => {
       event => event?.id === eventId,
    );
    const attendances = eventDetails.attendances;
-   // const attendance = useSelector(state => state?.event);
+
    // Find current user's status on this event
    const usersEventStatus = attendances.find(
       stt => stt.userId === currentUser?.id,
    );
-   const buttonStatus = React.useRef(null);
 
    const [userStatus, setUserStatus] = React.useState('');
    React.useState(() => {
@@ -57,8 +56,7 @@ const EventDetailsScreen = props => {
       }
    }, []);
 
-   // console.log(attendance);
-
+   // Add attendance status for user
    const handleChangeStatus = status => {
       setUserStatus(status);
       dispatch(addAttendance(eventId, currentUser?.id, status));
@@ -71,22 +69,26 @@ const EventDetailsScreen = props => {
       setIsPanelActive(!isPanelActive);
    };
    const changeCurrentStatus = userStatus => {
-      if (userStatus !== 'notGoing') {
-         // Change status
-         setUserStatus(userStatus);
-         dispatch(
-            editAttendanceStatus(
-               eventId,
-               usersEventStatus?.attendanceId,
-               userStatus,
-            ),
-         );
-      } else {
-         // Erase user's attendance
-         setUserStatus('');
-         dispatch(
-            deleteUserAttendance(eventId, usersEventStatus?.attendanceId),
-         );
+      if (usersEventStatus.status === 'going' || userStatus === 'going') {
+         if (userStatus !== 'notGoing') {
+            // Change status
+            setUserStatus(userStatus);
+            dispatch(
+               editAttendanceStatus(
+                  eventId,
+                  usersEventStatus?.attendanceId,
+                  userStatus,
+               ),
+            );
+         } else {
+            console.log(userStatus, usersEventStatus);
+            setIsPanelActive(false);
+            // Erase user's attendance
+            setUserStatus('');
+            dispatch(
+               deleteUserAttendance(eventId, usersEventStatus?.attendanceId),
+            );
+         }
       }
    };
    // Inside Bottomsheet
@@ -212,7 +214,7 @@ const EventDetailsScreen = props => {
                }
                childrenAfter={
                   <>
-                     {usersEventStatus || userStatus ? (
+                     {usersEventStatus && userStatus !== '' ? (
                         <Button
                            title={
                               userStatus.charAt(0).toUpperCase() +
@@ -250,7 +252,6 @@ const EventDetailsScreen = props => {
                               onPress={() => {
                                  handleChangeStatus('interested');
                               }}
-                              buttonStatus={buttonStatus}
                               icon={
                                  <AntDesign
                                     name="staro"

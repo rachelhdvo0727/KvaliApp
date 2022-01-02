@@ -29,6 +29,7 @@ export default function EventsScreen() {
       hour: 'numeric',
       minute: 'numeric',
    };
+   // console.log('events', events);
 
    return (
       <View style={styles.container}>

@@ -68,7 +68,26 @@ const EventReducer = (state: EventState = initialState, action: any) => {
          return { ...state, attendance: attendanceCopied };
 
       case DELETE_ATTENDANCE:
-         return { ...state };
+         // Check
+         const eventIndex = state.events.findIndex(
+            event => event.id === action.payload.eventId,
+         );
+         const newEvents = [...state.events];
+         const newEvent = state.events.find(
+            event => event.id === action.payload.eventId,
+         );
+         const attendanceArray = state.events[eventIndex].attendances.filter(
+            (participant: any) =>
+               participant.attendanceId !== action.payload.participant,
+         );
+         newEvents[eventIndex].attendances = attendanceArray;
+         console.log('reducer', state.events);
+         // chatRooms: state.events.filter(e => room.chatRoomName !== action.payload)
+
+         return {
+            ...state,
+            events: state.events,
+         };
       default:
          return state;
    }

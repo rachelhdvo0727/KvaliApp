@@ -7,7 +7,7 @@ interface Props {
    buttonStyle?: any;
    icon: () => void;
    onPress(arg: any): void;
-   buttonStatus?: React.ForwardedRef<Text>;
+   // buttonStatus?: React.ForwardedRef<Text>;
 }
 
 function OutlinedButton({
@@ -15,14 +15,12 @@ function OutlinedButton({
    onPress,
    icon,
    buttonStyle,
-   buttonStatus,
-}: Props) {
+}: // buttonStatus,
+Props) {
    return (
       <Pressable onPress={onPress} style={[styles.buttonStyle, buttonStyle]}>
          <View style={styles.iconStyle}>{icon}</View>
-         <Text style={styles.labelStyle} ref={buttonStatus}>
-            {title}
-         </Text>
+         <Text style={styles.labelStyle}>{title}</Text>
       </Pressable>
    );
 }
