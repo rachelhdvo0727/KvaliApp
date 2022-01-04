@@ -4,7 +4,6 @@ import {
    CHANGE_ATTENDANCE_STATUS,
    DELETE_ATTENDANCE,
 } from '../actions/EventActions';
-import Participant from '../../models/Participant';
 
 interface EventState {
    events: Array<any>;
@@ -73,16 +72,11 @@ const EventReducer = (state: EventState = initialState, action: any) => {
             event => event.id === action.payload.eventId,
          );
          const newEvents = [...state.events];
-         const newEvent = state.events.find(
-            event => event.id === action.payload.eventId,
-         );
          const attendanceArray = state.events[eventIndex].attendances.filter(
             (participant: any) =>
                participant.attendanceId !== action.payload.participant,
          );
          newEvents[eventIndex].attendances = attendanceArray;
-         console.log('reducer', state.events);
-         // chatRooms: state.events.filter(e => room.chatRoomName !== action.payload)
 
          return {
             ...state,

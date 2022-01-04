@@ -12,16 +12,8 @@ interface Props {
    onPress(arg: any): void;
 }
 
-export default function OutlineButton({
-   title,
-   icon,
-   secondaryIcon,
-   buttonStyle,
-   labelStyle,
-   iconStyle,
-   secondaryIconStyle,
-   onPress,
-}: Props) {
+export default function OutlineButton({ title, icon, secondaryIcon, buttonStyle, labelStyle,
+   iconStyle, secondaryIconStyle, onPress, }: Props) {
    return (
       <Pressable onPress={onPress} style={[styles.buttonStyle, buttonStyle]}>
          <View style={styles.leftWrapper}>

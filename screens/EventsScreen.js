@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, View, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CardGradient from '../components/CardGradient';
+import HrBar from '../components/HrBar';
 
 export default function EventsScreen() {
    const navigation = useNavigation();
@@ -16,7 +17,6 @@ export default function EventsScreen() {
       dispatch(fetchEvents());
    }, []);
    const events = useSelector(state => state?.event?.events);
-   const [userStatus, setUserStatus] = React.useState('');
 
    const dateTimeOptions = {
       weekday: 'short',
@@ -29,13 +29,22 @@ export default function EventsScreen() {
       hour: 'numeric',
       minute: 'numeric',
    };
-   // console.log('events', events);
+
+   // Sort events as of the latest
+   // https://stackoverflow.com/questions/12192491/sort-array-by-iso-8601-date
+   const sortedEvents = events.sort(function (a, b) {
+      return a.dateTime.start > b.dateTime.start
+         ? -1
+         : a.dateTime.start < b.dateTime.start
+         ? 1
+         : 0;
+   });
 
    return (
       <View style={styles.container}>
          <View style={{ flex: 1 }}>
             <FlatList
-               data={events}
+               data={sortedEvents}
                keyExtractor={item => item.id}
                renderItem={({ item }) => (
                   <CardGradient
@@ -80,7 +89,7 @@ export default function EventsScreen() {
                         navigation.navigate('EventDetailsScreen', {
                            eventId: item?.id,
                            eventTitle: item?.eventTitle,
-                           eventAttendances: item?.attendances,
+                           // eventAttendances: item?.attendances,
                         })
                      }
                   />

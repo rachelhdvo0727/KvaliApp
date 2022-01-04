@@ -9,8 +9,7 @@ export const fetchEvents = () => {
    return async (dispatch, getState) => {
       const token = getState().user.token;
       const response = await fetch(
-         'https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=' +
-            token,
+         `https://kvaliapp-54605-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
          {
             method: 'GET',
             headers: {

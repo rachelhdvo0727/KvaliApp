@@ -32,9 +32,10 @@ export default function LogInScreen(props) {
                refreshTokenString = await SecureStore.getItemAsync(
                   'refreshToken',
                );
+               console.log('fetch token');
+               // fetch token
                dispatch(refreshToken(refreshTokenString));
             }
-            console.log('no refresh token needed');
 
             userToken = await SecureStore.getItemAsync('userToken');
             user = JSON.parse(await SecureStore.getItemAsync('user'));

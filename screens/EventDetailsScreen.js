@@ -1,5 +1,4 @@
 import React from 'react';
-import Participant from '../models/Participant';
 import {
    StyleSheet,
    View,
@@ -30,13 +29,11 @@ import IconButton from '../components/IconButton';
 import ChatIcon from '../components/svgs/ChatIcon';
 import { RadioButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-
-import { Table, Row, Rows } from 'react-native-table-component';
+import { BlurView } from 'expo-blur';
 
 const EventDetailsScreen = props => {
    const dispatch = useDispatch();
    let eventId = props.route.params.eventId;
-   // let eventAttendances = props?.route?.params?.eventAttendances;
 
    const currentUser = useSelector(state => state?.user?.loggedInUser);
    const eventDetails = useSelector(state => state?.event?.events).find(
@@ -64,6 +61,84 @@ const EventDetailsScreen = props => {
 
    // BottomSheet
    const sheetRef = React.useRef(null);
+
+   // Inside Bottomsheet
+   const renderContent = () => (
+      <View
+         style={{
+            backgroundColor: 'white',
+            padding: 16,
+            height: 450,
+            zIndex: 9999,
+         }}>
+         <RadioButton.Group
+            onValueChange={userStatus => changeCurrentStatus(userStatus)}
+            value={userStatus}>
+            <View style={styles.selection}>
+               <AntDesign
+                  name="star"
+                  size={19}
+                  color={userStatus === 'interested' ? '#5050A5' : '#333333'}
+               />
+               <RadioButton.Item
+                  label="Interested"
+                  value="interested"
+                  color="#5050A5"
+                  labelStyle={[
+                     styles.selectionItem,
+                     {
+                        color:
+                           userStatus === 'interested' ? '#5050A5' : '#333333',
+                        width: '50%',
+                     },
+                  ]}
+                  mode="android"></RadioButton.Item>
+            </View>
+            <View style={styles.selection}>
+               <FontAwesome5
+                  name="calendar-check"
+                  size={19}
+                  color={userStatus === 'going' ? '#5050A5' : '#333333'}
+               />
+               <RadioButton.Item
+                  label="Going"
+                  value="going"
+                  color="#5050A5"
+                  mode="android"
+                  labelStyle={[
+                     styles.selectionItem,
+                     {
+                        color: userStatus === 'going' ? '#5050A5' : '#333333',
+                        width: '50.5%',
+                     },
+                  ]}
+               />
+            </View>
+            <View style={styles.selection}>
+               <Ionicons
+                  name="close-circle"
+                  size={19}
+                  color={userStatus === '' ? '#5050A5' : '#333333'}
+               />
+               <RadioButton.Item
+                  label="Not going"
+                  value="notGoing"
+                  color="#5050A5"
+                  mode="android"
+                  labelStyle={[
+                     styles.selectionItem,
+                     {
+                        color: userStatus === '' ? '#5050A5' : '#333333',
+                        width: '50%',
+                     },
+                  ]}
+               />
+            </View>
+         </RadioButton.Group>
+         <RadioButton value="Not going" />
+      </View>
+   );
+
    const [isPanelActive, setIsPanelActive] = React.useState(false);
    const openPanel = () => {
       setIsPanelActive(!isPanelActive);
@@ -81,9 +156,9 @@ const EventDetailsScreen = props => {
                ),
             );
          } else {
-            console.log(userStatus, usersEventStatus);
-            setIsPanelActive(false);
             // Erase user's attendance
+            // console.log(userStatus, usersEventStatus);
+            setIsPanelActive(false);
             setUserStatus('');
             dispatch(
                deleteUserAttendance(eventId, usersEventStatus?.attendanceId),
@@ -91,25 +166,6 @@ const EventDetailsScreen = props => {
          }
       }
    };
-   // Inside Bottomsheet
-   const renderContent = () => (
-      <View
-         style={{
-            backgroundColor: 'white',
-            padding: 16,
-            height: 450,
-            zIndex: 9999,
-         }}>
-         <RadioButton.Group
-            onValueChange={userStatus => changeCurrentStatus(userStatus)}
-            value={userStatus}>
-            <RadioButton.Item label="Interested" value="interested" />
-            <RadioButton.Item label="Going" value="going" />
-            <RadioButton.Item label="Not Going" value="notGoing" />
-         </RadioButton.Group>
-         <RadioButton value="Not going" />
-      </View>
-   );
 
    const [truncateText, setTruncateText] = React.useState(false);
    const toggleShowText = () => {
@@ -144,7 +200,7 @@ const EventDetailsScreen = props => {
             <>
                <BottomSheet
                   ref={sheetRef}
-                  snapPoints={[300, 0]}
+                  snapPoints={[280, 0]}
                   borderRadius={10}
                   renderContent={renderContent}
                />
@@ -293,7 +349,7 @@ const EventDetailsScreen = props => {
                               color="#333333"
                               style={{ marginRight: 5 }}
                            />
-                           <Text style={styles.statusText}>Interested</Text>
+                           <Text style={styles.statusText}>135 Interested</Text>
                         </View>
                         <Ionicons
                            name="ios-ellipse"
@@ -422,6 +478,14 @@ const styles = StyleSheet.create({
       fontSize: 14,
       padding: 5,
    },
+   selection: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: 600,
+      flexWrap: 'nowrap',
+      alignContent: 'stretch',
+   },
+   selectionItem: { fontFamily: 'OpenSans-Bold' },
    overlay: {
       flex: 1,
       position: 'absolute',
