@@ -34,8 +34,8 @@ import { BlurView } from 'expo-blur';
 const EventDetailsScreen = props => {
    const dispatch = useDispatch();
    let eventId = props.route.params.eventId;
+   const currentUser = props.route.params.user;
 
-   const currentUser = useSelector(state => state?.user?.loggedInUser);
    const eventDetails = useSelector(state => state?.event?.events).find(
       event => event?.id === eventId,
    );
@@ -47,7 +47,7 @@ const EventDetailsScreen = props => {
    );
 
    const [userStatus, setUserStatus] = React.useState('');
-   React.useState(() => {
+   React.useEffect(() => {
       if (usersEventStatus) {
          setUserStatus(usersEventStatus?.status);
       }
@@ -59,9 +59,8 @@ const EventDetailsScreen = props => {
       dispatch(addAttendance(eventId, currentUser?.id, status));
    };
 
-   // BottomSheet
+   // ------ BottomSheet ------
    const sheetRef = React.useRef(null);
-
    // Inside Bottomsheet
    const renderContent = () => (
       <View
@@ -69,7 +68,7 @@ const EventDetailsScreen = props => {
             backgroundColor: 'white',
             padding: 16,
             height: 450,
-            zIndex: 9999,
+            // zIndex: 9999,
          }}>
          <RadioButton.Group
             onValueChange={userStatus => changeCurrentStatus(userStatus)}
@@ -144,27 +143,27 @@ const EventDetailsScreen = props => {
       setIsPanelActive(!isPanelActive);
    };
    const changeCurrentStatus = userStatus => {
-      if (usersEventStatus.status === 'going' || userStatus === 'going') {
-         if (userStatus !== 'notGoing') {
-            // Change status
-            setUserStatus(userStatus);
-            dispatch(
-               editAttendanceStatus(
-                  eventId,
-                  usersEventStatus?.attendanceId,
-                  userStatus,
-               ),
-            );
-         } else {
-            // Erase user's attendance
-            // console.log(userStatus, usersEventStatus);
-            setIsPanelActive(false);
-            setUserStatus('');
-            dispatch(
-               deleteUserAttendance(eventId, usersEventStatus?.attendanceId),
-            );
-         }
+      // if (usersEventStatus.status === 'going' || userStatus === 'going') {
+      if (userStatus !== 'notGoing') {
+         // Change status
+         setUserStatus(userStatus);
+         dispatch(
+            editAttendanceStatus(
+               eventId,
+               usersEventStatus?.attendanceId,
+               userStatus,
+            ),
+         );
+      } else {
+         // Erase user's attendance
+         // console.log(userStatus, usersEventStatus);
+         setIsPanelActive(false);
+         setUserStatus('');
+         dispatch(
+            deleteUserAttendance(eventId, usersEventStatus?.attendanceId),
+         );
       }
+      // }
    };
 
    const [truncateText, setTruncateText] = React.useState(false);
@@ -206,6 +205,7 @@ const EventDetailsScreen = props => {
                />
             </>
          )}
+
          <ScrollView>
             <ImageBackground
                style={{ width: '100%', height: 164 }}
@@ -486,6 +486,16 @@ const styles = StyleSheet.create({
       alignContent: 'stretch',
    },
    selectionItem: { fontFamily: 'OpenSans-Bold' },
+   blurContainer: {
+      flex: 1,
+      padding: 100,
+      justifyContent: 'center',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      height: '60%',
+      width: '100%',
+   },
    overlay: {
       flex: 1,
       position: 'absolute',

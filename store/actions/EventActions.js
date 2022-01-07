@@ -1,5 +1,6 @@
 import Participant from '../../models/Participant';
 import Event from '../../models/Event';
+
 export const EVENTS = 'EVENTS';
 export const ADD_ATTENDANCE = 'ADD_ATTENDANCE';
 export const CHANGE_ATTENDANCE_STATUS = 'CHANGE_ATTENDANCE_STATUS';

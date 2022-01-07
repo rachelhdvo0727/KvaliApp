@@ -18,6 +18,7 @@ interface Props {
    end: string;
    address: string;
    imageSource: { uri: string };
+   isTagStatus: boolean;
    iconDateTime: (arg: any) => void;
    iconAddress: (arg: any) => void;
    onPress: (arg: any) => void;
@@ -29,6 +30,7 @@ export default function CardOverlay({
    start,
    end,
    address,
+   isTagStatus,
    iconDateTime,
    iconAddress,
    imageSource,
@@ -45,6 +47,7 @@ export default function CardOverlay({
                   colors={['#00000000', '#00000083', '#000000E6']}
                   style={styles.background}
                />
+               {/* {isTagStatus && <EventStatusTag style={styles.tag} />} */}
                <View style={styles.contentWrapper}>
                   <View style={[styles.titleWrapper]}>
                      <Text style={[styles.title, defaultStyles.whiteText]}>
@@ -87,12 +90,19 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       paddingBottom: 5,
       marginVertical: 13,
-      marginHorizontal: 20,
+      marginHorizontal: 25,
    },
    contentWrapper: {
       paddingHorizontal: 13,
       paddingTop: 64,
       zIndex: 999,
+   },
+   tag: { alignSelf: 'flex-end', position: 'absolute', top: 0, right: 10 },
+   statusIcon: {
+      alignSelf: 'flex-end',
+      position: 'absolute',
+      top: 8,
+      right: 18,
    },
    titleWrapper: {
       paddingBottom: 3,
